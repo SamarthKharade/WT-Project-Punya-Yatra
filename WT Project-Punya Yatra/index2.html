@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punya Yatra - Your Complete Pilgrimage Planner</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+           
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: #343a40;
+            color: rgb(240, 12, 12);
+        }
+        .header img {
+            height: 50px;
+        }
+        .header-buttons button {
+            margin-left: 10px;
+        }
+        .search-bar {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .marquee-container {
+            background: white;
+            padding: 10px;
+            overflow: hidden;
+            white-space: nowrap;
+            margin-bottom: 20px;
+        }
+        .temple-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 40px 0;
+            background: #f8f9fa;
+        }
+        .temple-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 85%;
+    max-width: 900px; /* Limits maximum width */
+    margin: 50px auto; /* Centers the div */
+    padding: 30px;
+    background: rgb(249, 252, 253);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.temple-card img {
+    width: 100%; /* Full width of card */
+    height: auto;
+    max-height: 400px; /* Large image but within limits */
+    border-radius: 10px;
+}
+
+.temple-card h5 {
+    font-size: 28px; /* Bigger title */
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.temple-card p {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.temple-card button {
+    margin: 10px;
+    font-size: 18px;
+    padding: 10px 20px;
+}
+
+        .booking-section {
+            padding: 40px 0;
+            background: #ffffff;
+        }
+        .booking-option {
+            text-align: center;
+            cursor: pointer;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: rgb(255, 255, 255);
+            padding: 15px;
+        }
+        .booking-option img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .container {
+           background-color: white;
+            
+          
+           
+
+        }
+     
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <img src="images/logo.png" alt="Logo">
+        <h2>Punya Yatra - Your Complete Pilgrimage Planner</h2>
+        <div class="header-buttons">
+            <button class="btn btn-success" onclick="location.href='/login'">Login</button>
+            <button class="btn btn-primary" onclick="location.href='/signup'">Sign Up</button>
+        </div>
+    </div>
+
+    <div class="container">
+    
+    <!-- Search Bar -->
+
+    <div class="search-bar d-flex justify-content-center">
+        <div class="input-group w-50">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search for a temple...">
+            <button class="btn btn-primary ms-2" onclick="filterTemples()">Search</button>
+        </div>
+    </div>
+
+    <!-- Marquee Section for Temples -->
+    <div class="marquee-container">
+        <marquee>Explore Famous Temples of Maharashtra - Akkalkot Swami Samarth Temple,Pandharpur Vittal-Rakumai Temple,Tuljapur Tulja-Bhavani Temple,Shirdi Sai Baba Temple, Trimbakeshwar Temple, Mahalaxmi Temple, Bhimashankar Temple, Siddhivinayak Temple</marquee>
+    </div>
+
+    <!-- Temple Information Section 
+    
+    <div class="container temple-section">
+      
+        <div class="temple-card">
+            <img src="images/swami-samarth-temple.jpg" alt="Trimbakeshwar Temple">
+            <div class="info">
+                <h5>Swami Samarth Temple</h5>
+                <p>Location: Akkalot, Maharashtra</p>
+            </div>
+        </div>
+
+        <div class="temple-card">
+            <img src="images/pandharpur-temple.jpg" alt="Mahalaxmi Temple">
+            <div class="info">
+                <h5>Vittal-Rakumai Temple</h5>
+                <p>Location: Pandharpur, Maharashtra</p>
+            </div>
+        </div>
+
+        <div class="temple-card">
+            <img src="images/tuljapur-temple.jpg" alt="Mahalaxmi Temple">
+            <div class="info">
+                <h5>Tulja-Bhavani Temple</h5>
+                <p>Location: Tuljapur, Maharashtra</p>
+            </div>
+        </div>
+
+        <div class="temple-card">
+            <img src="images/sai-baba-temple.png" alt="Shirdi Sai Baba Temple">
+            <div class="info">
+                <h5>Sai Baba Temple</h5>
+                <p>Location: Shirdi, Maharashtra</p>
+            </div>
+        </div>
+   
+   
+    </div>-->
+
+       
+        <div class="temple-card">
+            <img id="temple-image" src="images/swami-samarth-temple.jpg" alt="Temple" width="1200px" height="800px">
+            <h5 class="temple-name">Swami Samarth Temple</h5>
+            <p class="temple-location">Location: Akkalkot, Maharashtra</p>
+            <div>
+                <button class="btn btn-secondary" onclick="prevTemple()">Previous</button>
+                <button class="btn btn-primary" onclick="nextTemple()">Next</button>
+            </div>
+        </div>
+    
+
+
+    <!-- Booking Options -->
+    <div class="container booking-section">
+        <h2 class="text-center mb-4">Plan Your Stay & Travel</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="booking-option" onclick="handleBooking('hotel')">
+                    <img src="images/hotel.jpg" alt="Hotel Booking">
+                    <p>Book a Hotel</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="booking-option" onclick="handleBooking('restaurant')">
+                    <img src="images/restaurant.jpg" alt="Restaurant Booking">
+                    <p>Book a Restaurant</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="booking-option" onclick="handleBooking('travel')">
+                    <img src="images/travel.png" alt="Travel Booking">
+                    <p>Book Tickets</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center p-3 mt-4 bg-dark text-white">
+        <p>&copy; 2025 Punya Yatra - Your Complete Pilgrimage Planner</p>
+        <p>Contact us: <a href="kharadesamarth2004@gmail.com" class="text-white" style="color:blue">kharadesamarth2004@gmail.com</a>
+     9307953702</p>
+        <p>Follow us on:
+           
+            <a href="https://www.instagram.com/samarth_04_/" class="text-white mx-2">Instagram</a>
+        </p>
+    </footer>
+   
+
+    <script>
+    let autoSwitchStopped = false; 
+    
+    const temples = [
+    { img: "images/sai-baba-temple.png", name: "Sai Baba Temple", location: "Shirdi, Maharashtra" },
+    { img: "images/swami-samarth-temple.jpg", name: "Swami Samarth Temple", location: "Akkalkot, Maharashtra" },
+    { img: "images/pandharpur-temple.jpg", name: "Vittal Rakumai Temple", location: "Pandharpur, Maharashtra" },
+    { img: "images/tuljapur-temple.jpg", name: "Tulja Bhavani Temple", location: "Tuljapur, Maharashtra" }
+];
+
+let currentIndex = 0;
+let autoSwitch; // To store the interval reference
+autoSwitch = setInterval(nextTemple, 5000); // To store the interval reference
+function updateTemple() {
+    const templeImage = document.getElementById("temple-image");
+    const templeName = document.querySelector(".temple-name");
+    const templeLocation = document.querySelector(".temple-location");
+
+    if (templeImage && templeName && templeLocation) {
+        templeImage.src = temples[currentIndex].img;
+        templeName.textContent = temples[currentIndex].name;
+        templeLocation.textContent = `Location: ${temples[currentIndex].location}`;
+    }
+
+   
+  
+
+    
+}
+
+function nextTemple() {
+   
+    currentIndex = (currentIndex + 1) % temples.length;
+    updateTemple();
+    resetAutoSwitch();
+}
+
+function prevTemple() {
+
+   
+
+    currentIndex = (currentIndex - 1 + temples.length) % temples.length;
+    updateTemple();
+    resetAutoSwitch();
+}
+
+// Auto change every 5 seconds
+function startAutoSwitch() {
+    autoSwitch = setInterval(nextTemple, 5000);
+}
+
+// Reset auto switch timer when the user manually changes
+function resetAutoSwitch() {
+
+    clearInterval(autoSwitch);
+    startAutoSwitch();
+}
+
+// Ensure the first temple loads correctly
+window.onload = () => {
+    updateTemple();
+    startAutoSwitch();
+
+    // Attach event listeners only after DOM is fully loaded
+    const templeCard = document.querySelector(".temple-card");
+    if (templeCard) {
+        templeCard.addEventListener("mouseenter", () => clearInterval(autoSwitch));
+        templeCard.addEventListener("mouseleave", startAutoSwitch);
+    }
+};
+
+function filterTemples() {
+    const input = document.getElementById("searchInput").value.toLowerCase().trim();
+    const foundTemple = temples.find(temple =>
+        temple.name.toLowerCase().includes(input) || 
+        temple.location.toLowerCase().includes(input)
+    );
+
+    if (foundTemple) {
+        const templeImage = document.getElementById("temple-image");
+        const templeName = document.querySelector(".temple-name");
+        const templeLocation = document.querySelector(".temple-location");
+
+        templeImage.src = foundTemple.img;
+        templeName.textContent = foundTemple.name;
+        templeLocation.textContent = `Location: ${foundTemple.location}`;
+
+        // Update index for smooth transitions
+        currentIndex = temples.findIndex(temple => temple.name === foundTemple.name);
+
+         // Stop auto-switching permanently until the page is refreshed
+         
+            clearInterval(autoSwitch);
+            autoSwitch = null;  // Set to null to ensure it does not restart
+          
+       
+    } else if (input === "") {
+        // If input is empty, reset to the first temple
+        currentIndex = 0;
+       
+        updateTemple();
+     
+     
+     
+       
+    } 
+     else {
+        alert("Temple not found. Try another search!");
+    }
+}
+
+    </script>
+
+    
+       
+     
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+       /* function handleBooking(type) {
+            var isLoggedIn = {{ session['loggedin'] | tojson }};
+            if (!isLoggedIn) {
+                alert("Please login first to proceed with booking.");
+                window.location.href = "/login";
+            } else {
+                window.location.href = "/book/" + type;
+            }
+        }*/
+    </script>
+</body>
+</html>

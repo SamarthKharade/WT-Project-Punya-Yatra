@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punya Yatra - Your Complete Pilgrimage Planner</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: #343a40;
+            color: white;
+        }
+        .header img {
+            height: 50px;
+        }
+        .header-buttons button {
+            margin-left: 10px;
+        }
+        .search-bar {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .marquee-container {
+            background: #f8f9fa;
+            padding: 10px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .hero {
+            background: url('temple.jpg') center/cover no-repeat;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-shadow: 2px 2px 10px black;
+        }
+        .booking-section {
+            padding: 40px 0;
+            background: #f8f9fa;
+        }
+        .booking-option {
+            position: relative;
+            cursor: pointer;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 2px 2px 10px black;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        .booking-option img {
+            width: 100%;
+            height: 220px;
+            border-radius: 10px;
+            transition: transform 0.3s ease-in-out;
+        }
+        .booking-option:hover img {
+            transform: scale(1.1);
+        }
+        .booking-option::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+        }
+        .booking-option p {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <img src="images/logo.png" alt="Logo">
+        <h2>Punya Yatra - Your Complete Pilgrimage Planner</h2>
+        <div class="header-buttons">
+            <button class="btn btn-light" onclick="location.href='/login'">Login</button>
+            <button class="btn btn-primary" onclick="location.href='/signup'">Sign Up</button>
+        </div>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <input type="text" class="form-control w-50 mx-auto" placeholder="Search for a temple...">
+    </div>
+
+    <!-- Marquee Section for Temples -->
+    <div class="marquee-container">
+        <marquee>Explore Famous Temples of Maharashtra - Akkalkot Swami Samarth Temple,Pandharpur Vittal-Rakumai Temple,Tuljapur Tulja-Bhavani Temple,Shirdi Sai Baba Temple, Trimbakeshwar Temple, Mahalaxmi Temple, Bhimashankar Temple, Siddhivinayak Temple</marquee>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero text-center">
+        <h1>Explore Maharashtra's Temples & Plan Your Journey</h1>
+    </div>
+
+    <!-- Booking Options
+    <div class="container booking-section">
+        <h2 class="text-center mb-4">Plan Your Stay & Travel</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="booking-option" onclick="handleBooking('hotel')">
+                    <img src="images/hotel.jpg" alt="Hotel Booking">
+                    <p>Book a Hotel</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="booking-option" onclick="handleBooking('restaurant')">
+                    <img src="images/restaurant.jpg" alt="Restaurant Booking">
+                    <p>Book a Restaurant</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="booking-option" onclick="handleBooking('travel')">
+                    <img src="images/travel.png" alt="Travel Booking">
+                    <p>Book Tickets</p>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <div class="container mt-4">
+        <h2 class="text-center">Explore Famous Temples</h2>
+        <div class="temple-display text-center">
+            <img id="temple-image" src="images/sai-baba-temple.png" alt="Temple" width="400px" height="250px">
+            <h4 id="temple-name">Shirdi Sai Baba Temple</h4>
+            <p id="temple-location">Location: Shirdi, Maharashtra</p>
+            <div>
+                <button class="btn btn-secondary" onclick="prevTemple()">Previous</button>
+                <button class="btn btn-primary" onclick="nextTemple()">Next</button>
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
+        const temples = [
+            { img: "images/sai-baba-temple.png", name: "Shirdi Sai Baba Temple", location: "Shirdi, Maharashtra" },
+            { img: "images/swami-samarth-temple.jpg", name: "Swami Samarth Temple", location: "Akkalkot, Maharashtra" },
+           //{ img: "mahalaxmi.jpg", name: "Mahalaxmi Temple", location: "Kolhapur, Maharashtra" },
+           // { img: "tuljapur.jpg", name: "Tulja Bhavani Temple", location: "Tuljapur, Maharashtra" }
+        ];
+    
+        let currentIndex = 0;
+        const templeImage = document.getElementById("temple-image");
+        const templeName = document.getElementById("temple-name");
+        const templeLocation = document.getElementById("temple-location");
+    
+        function updateTemple() {
+            templeImage.src = temples[currentIndex].img;
+            templeName.textContent = temples[currentIndex].name;
+            templeLocation.textContent = `Location: ${temples[currentIndex].location}`;
+        }
+    
+        function nextTemple() {
+            currentIndex = (currentIndex + 1) % temples.length;
+            updateTemple();
+        }
+    
+        function prevTemple() {
+            currentIndex = (currentIndex - 1 + temples.length) % temples.length;
+            updateTemple();
+        }
+    
+        // Auto change every 5 seconds
+        setInterval(nextTemple, 5000);
+    </script>
+    
+
+    <!-- Footer -->
+    <footer class="text-center p-3 mt-4 bg-dark text-white">
+        <p>&copy; 2025 Punya Yatra</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!--<script>
+        var isLoggedIn = {{ 'true' if session.get('loggedin', False) else 'false' }}; // Ensure this is rendered server-side
+    
+        function handleBooking(type) {
+            if (!isLoggedIn) {
+                alert("Please login first to proceed with booking.");
+                window.location.href = "/login";
+            } else {
+                window.location.href = "/book/" + type;
+            }
+        }
+    </script>-->
+    
+</body>
+</html>
