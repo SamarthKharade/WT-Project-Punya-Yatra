@@ -195,13 +195,13 @@
         <h2 class="text-center mb-4">Plan Your Stay & Travel</h2>
         <div class="row g-4">
             <div class="col-md-4">
-                <div class="booking-option" onclick="handleBooking('hotel')">
+                <div class="booking-option" onclick="location.href='./hotels.html'">
                     <img src="images/hotel.jpg" alt="Hotel Booking">
                     <p>Book a Hotel</p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="booking-option" onclick="handleBooking('restaurant')">
+                <div class="booking-option" onclick="location.href='./restaurant2.html'">
                     <img src="images/restaurant.jpg" alt="Restaurant Booking">
                     <p>Book a Restaurant</p>
                 </div>
@@ -242,7 +242,7 @@
 
 let currentIndex = 0;
 let autoSwitch; // To store the interval reference
-autoSwitch = setInterval(nextTemple, 5000); // To store the interval reference
+autoSwitch = setInterval(nextTemple, 10000); // To store the interval reference
 function updateTemple() {
     const templeImage = document.getElementById("temple-image");
     const templeName = document.querySelector(".temple-name");
@@ -278,7 +278,7 @@ function prevTemple() {
 
 // Auto change every 5 seconds
 function startAutoSwitch() {
-    autoSwitch = setInterval(nextTemple, 5000);
+    autoSwitch = setInterval(nextTemple, 10000);
 }
 
 // Reset auto switch timer when the user manually changes
