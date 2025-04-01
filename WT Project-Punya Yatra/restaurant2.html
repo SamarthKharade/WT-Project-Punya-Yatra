@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Find Restaurant</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    .web-logo{
+      height: 90px;
+      top: 0;
+      left: 0;
+    }
+
+    body {
+      background-color: #f4f4f4;
+      text-align: center;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: #343a40;
+      color: white;
+      font-size: 24px;
+      top: 0;
+      left: 0;
+    }
+
+    
+    .logo {
+      font-size: 30px;
+      margin-right: 10px;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+     
+
+    .search-bar {
+      margin: 20px auto;
+      display: flex;
+      justify-content: center;
+    }
+
+    .search-bar input {
+      width: 300px;
+      padding: 10px;
+      border: 2px solid #343a40;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    .search-bar button {
+      padding: 10px 20px;
+      margin-left: 10px;
+      background: #343a40;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .search-bar button:hover {
+      background: #343a40;
+    }
+
+    .restaurant-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px;
+    }
+
+    .restaurant-card {
+      background: white;
+      width: 300px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .restaurant-card:hover {
+      transform: scale(1.05);
+    }
+
+    .restaurant-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .info {
+      padding: 15px;
+    }
+
+    .book-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background: #343a40;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .book-btn:hover {
+      background: #343a40;
+    }
+
+    .footer{
+      background-color: #343a40;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="images/logo.png" alt="logo" class="web-logo">
+    </div>
+    <h1>Book Restaurant</h1>
+  </header>
+  <section class="search-bar">
+    <input type="text" placeholder="Search Restaurants by Temple Location..." />
+    <button>Search</button>
+  </section>
+  <section class="restaurant-list">
+    <div class="restaurant-card">
+      <img src="images/restaurant1.jpg" alt="Restaurant Image" />
+      <div class="info">
+        <h2>Hotel Niranjan Dhaba</h2>
+        <p>Near Tulja Bhawani Temple</p>
+        <p>Distance: 500m</p>
+        <button class="book-btn">Book Now</button>
+      </div>
+    </div>
+    <div class="restaurant-card">
+      <img src="images/restaurant2.jpg" alt="Restaurant Image" />
+      <div class="info">
+        <h2>Jagdamba Devi Pure Vegetarian Restaurant</h2>
+        <p>Near Tulja Bhawani Temple</p>
+        <p>Distance: 750m</p>
+        <button class="book-btn">Book Now</button>
+      </div>
+    </div>
+    <div class="restaurant-card">
+      <img src="images/restaurant3.jpg" alt="Restaurant Image" />
+      <div class="info">
+        <h2>Joshi Bhojanalay</h2>
+        <p>Near Swami Samarth Temple</p>
+        <p>Distance: 600m</p>
+        <button class="book-btn">Book Now</button>
+      </div>
+    </div>
+    <div class="restaurant-card">
+      <img src="images/restaurant4.jpg" alt="Restaurant Image" />
+      <div class="info">
+        <h2>Hotel Ajinkyatara</h2>
+        <p>Near Swami Samarth Temple</p>
+        <p>Distance: 900m</p>
+        <button class="book-btn">Book Now</button>
+      </div>
+    </div>
+    <div class="restaurant-card">
+      <img src="images/restaurant5.jpg" alt="Restaurant Image" />
+      <div class="info">
+        <h2>Hotel Radhesh Garden Pure Veg Restaurant</h2>
+        <p>Near Vitthal Rukmini Temple</p>
+        <p>Distance: 1.2km</p>
+        <button class="book-btn">Book Now</button>
+      </div>
+    </div>
+    <div class="restaurant-card">
+      <img src="images/restaurant6.jpg" alt="Restaurant Image" />
+      <div class="info">
+        <h2>Mahajan Foods</h2>
+        <p>Near Vitthal Rukmini Temple</p>
+        <p>Distance: 1km</p>
+        <button class="book-btn">Book Now</button>
+      </div>
+    </div>
+  </section>
+
+   <!-- Footer -->
+   <footer class="footer">
+    <p>&copy; 2025 Punya Yatra - Your Complete Pilgrimage Planner</p>
+    <p>Contact us: <a href="kharadesamarth2004@gmail.com" class="text-white"
+            style="color:blue">kharadesamarth2004@gmail.com</a>
+        9307953702</p>
+    <p>Follow us on:
+
+        <a href="https://www.instagram.com/samarth_04_/" class="text-white mx-2">Instagram</a>
+    </p>
+</footer>
+  
+  <script>
+    // Attach click event listeners to all book now buttons
+    document.querySelectorAll('.book-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        // Redirect to booking page
+        window.location.href = 'booking.html';
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Restaurant Booking</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    .web-logo{
+      height: 130px;
+    }
+
+    body {
+      background-color: #f4f4f4;
+      text-align: center;
+    }
+
+    .footer{
+      background-color: #343a40;
+      color: white;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: #343a40;
+      color: white;
+      font-size: 24px;
+      top: 0;
+      left: 0;
+    }
+
+    .logo {
+      font-size: 30px;
+      margin-right: 10px;
+      top: 0;
+      left: 0;
+    }
+
+    .booking-form {
+      max-width: 500px;
+      margin: 40px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .booking-form h2 {
+      margin-bottom: 20px;
+    }
+
+    .booking-form input,
+    .booking-form select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 2px solid #343a40;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    .booking-form button {
+      padding: 10px 20px;
+      background: #343a40;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .booking-form button:hover {
+      background: #343a40;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="images/logo.png" alt="logo" class="web-logo">
+    </div>
+    <h1>Restaurant Booking</h1>
+  </header>
+  <div class="booking-form">
+    <h2>Book Your Table</h2>
+    <form id="bookingForm" action="#" method="POST">
+      <input type="text" name="customerName" placeholder="Customer Name" required />
+      <input type="date" name="date" placeholder="Select Date" required>
+      <input type="time" name="bookingTime" placeholder="Select Time" required />
+      <input type="number" name="numPeople" placeholder="Number of People" min="1" required />
+      <input type="number" name="numTables" placeholder="Number of Tables" min="1" required />
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2025 Punya Yatra - Your Complete Pilgrimage Planner</p>
+    <p>Contact us: <a href="kharadesamarth2004@gmail.com" class="text-white"
+            style="color:blue">kharadesamarth2004@gmail.com</a>
+        9307953702</p>
+    <p>Follow us on:
+
+        <a href="https://www.instagram.com/samarth_04_/" class="text-white mx-2">Instagram</a>
+    </p>
+  </footer>
+  
+  <script>
+    const form = document.getElementById('bookingForm');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      // Here you can add your booking logic, e.g., send form data to a server
+      alert('Booking submitted successfully!');
+    });
+  </script>
+</body>
+</html>
