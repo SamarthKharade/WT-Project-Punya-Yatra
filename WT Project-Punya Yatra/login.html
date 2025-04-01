@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+    /* font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;  */
+        background: linear-gradient(135deg,rgb(18, 169, 234),yellow,rgb(255, 0, 0),rgb(183, 0, 255));
+    /* background:linear-gradient(145deg, #ffecd2 0%, #fcb69f 25%,  #ffb199 50%,#f6d365 75%, #fda085 100%); */
+        display: flex;
+        justify-content: center; 
+        align-items: center; 
+        min-height: 100vh; 
+        }
+        form {
+            max-width: 400px; 
+            width: 100%; 
+            border: 1px solid yellow;
+            background-color: white;
+            background:linear-gradient(160deg,#d0e534 0%, #d4fc79 30%,#c2e9fb 60%, #a1c4fd 100%);
+            border-radius: 30px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        h2, h3 {
+            text-align: center;
+            margin: 5px 0;
+        }
+        .eye-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            transition: top 0.2s;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+            color: rgb(114, 55, 241);
+        }
+        
+        @media (min-width: 1440px) {
+            form {
+                transform: scale(1.2);
+            }
+        }
+        @media (min-width: 2560px) {
+            form {
+                transform: scale(1.5);
+            }
+        }
+        
+        @media (max-width: 625px){
+            form{
+                border-radius: 0px;
+                padding: 10px;
+            }
+        }
+    </style>
+    <title>SignUp Page</title>
+</head>
+<body>
+    
+    <form action="signup.php" method="post">
+        <h2>Punya Yatra</h2>
+        <h3>Log In</h3>
+        <div>
+            <input type="text" name="username" id="username" placeholder="Username">
+        </div>
+        <div style="position: relative;">
+            <input type="password" id="Password" class="password" placeholder="Enter Password">
+            <span class="eye-icon" id="eye-icon" onclick="togglePassword()">👁️</span>
+        </div>
+        <div class="buttons">
+            <button type="submit">Sign In</button>
+            <button type="reset">Reset</button>
+        </div>
+        <p class="option">Don't have an account <a href="index.html">Sign Up here</a></p>
+    </form>
+    <script>
+        function togglePassword() {
+            let passwordInput = document.getElementById("Password");
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+            } else {
+                passwordInput.type = "password";
+            }
+        }
+    </script>
+</body>
+</html>

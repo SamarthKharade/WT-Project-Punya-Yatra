@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: linear-gradient(135deg,rgb(18, 169, 234),yellow,rgb(255, 0, 0),rgb(183, 0, 255));
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+        }
+
+        form {
+            max-width: 400px; 
+            width: 100%; 
+            border: 1px solid yellow;
+            background-color: white;
+            background:linear-gradient(160deg,#d0e534 0%, #d4fc79 30%,#c2e9fb 60%, #a1c4fd 100%);
+            border-radius: 30px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        h2, h3 {
+            text-align: center;
+            margin: 5px 0;
+        }
+
+        .form_info {
+        
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 100%;
+        }
+
+        .contact-container {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .contact-container select {
+            max-width: 100px;
+            flex-shrink: 0; 
+            border-radius: 10px;
+        }
+
+        .contact-container input {
+            flex-grow: 1; 
+        }
+
+        .eye-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            transition: top 0.2s;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .age_selector{
+            padding: 3px;
+            margin-left: 20px;
+        }
+        .gender-container{
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+        }
+        input[type="radio"],input[type="date"]{
+            width: auto;
+
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            appearance: none;
+        }
+
+        p.option {
+            font-size: 88%;
+            text-align: center;
+        }
+
+        p.Error{
+            display: none;
+            color: red;
+            margin: 0;
+            margin-top: 5px;
+            min-height: 18px;
+            margin: 3px 0 0 0; 
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .password-container{
+            position: relative;
+        }
+
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        button {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+            color: rgb(114, 55, 241);
+        }
+
+        @media (min-width: 1440px) {
+            form {
+                transform: scale(1.2);
+            }
+        }
+        @media (min-width: 2560px) {
+            form {
+                transform: scale(1.5);
+            }
+        }
+
+        @media (max-width: 625px){
+            form{
+                border-radius: 0px;
+                padding: 10px;
+            }
+        }
+    </style>
+    <title>SignUp Page</title>
+</head>
+<body>
+    <form onsubmit="return validateForm()" action="signup.php" method="post" id="formBody">
+        <h2>Punya Yatra</h2>
+        <h3>Sign Up</h3>
+        
+        <div class="form_info">
+            <input type="text" id="name" name="name" placeholder="Enter Full Name" required>
+        </div>
+
+        <div class="gender-container">
+            <div style="margin: auto;">
+                <input type="radio" name="gender" value="male" id="male" required>
+                <label for="male">Male</label>
+                
+                <input type="radio" name="gender" value="female" id="female" required>
+                <label for="female">Female</label>
+                
+                <input type="radio" name="gender" value="other" id="other" required>
+                <label for="other">Other</label>
+                <select name="age" class="age_selector" id="age" required>
+                    <option value="" disabled selected>Age</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="contact-container">
+            <select name="countrycode" id="countrycode" required>
+                <option value="+91">+91 India</option>
+                <option value="+1">+1 US</option>
+            </select>
+            <input class="number" type="number" id="mobile" name="mobile" placeholder="Enter Contact Number" required>
+        </div>        
+        
+        <div class="form_info">
+            <input type="email" id="email" name="email" placeholder="Enter Email" required>
+        </div>
+
+        <div class="form_info">
+            <textarea name="address" style="resize: none; padding: 5px;" id="address" placeholder="Address with pincode no." required></textarea>
+        </div>
+        <div class="form_info">
+            <input type="text" name="username" oninput="checkUsername()" id="username" placeholder="Username" required>
+            <p class="Error" id="userError">Password to short</p>
+        </div>
+        <div class="form_info">
+            <input id="password" type="password" oninput="checkPass(),checkRePass()" class="password" placeholder="Enter Password" required>
+            <p class="Error" id="passError"></p>
+        </div>
+        <div class="form_info password-container">
+            <input type="password" oninput="checkRePass()" id="rePassword" placeholder="Re-enter Password" required>
+            <span class="eye-icon" id="eye-icon" onclick="togglePassword()">👁️</span>
+            <p class="Error" id="passAndconfirm" ></p>
+        </div>
+        <div class="buttons">
+            <button type="submit">Sign Up</button>
+            <button type="reset">Reset</button>
+        </div>
+        <p class="option">Already have account <a href="login.html">Login here</a></p>
+    </form>
+    <script src="script.js"></script> 
+</body>
+</html>
