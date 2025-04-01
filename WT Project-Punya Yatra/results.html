@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punya Yatra - Search Results</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        .navbar {
+            background: rgba(214, 86, 86, 0.9);
+        }
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        .nav-link {
+            color: white !important;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .result-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+        footer {
+            background: #222;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <img src="images/logo.png" alt="Logo" width="50" height="50" class="web-logo" style="margin-right: 10px;">
+            <a class="navbar-brand" href="index.html">Punya Yatra : Your Complete Pilgrimage Planner</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Bookings</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <h2 class="text-center">Search Results</h2>
+        <p class="text-center" id="searchDetails"></p>
+        <div id="resultsContainer"></div>
+    </div>
+    
+    <footer>
+        <p>© 2025 Punya Yatra. All Rights Reserved.</p>
+    </footer>
+    
+    <script>
+        function getQueryParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return {
+                transportType: urlParams.get('transportType') || 'Not Selected',
+                from: urlParams.get('from') || 'Unknown',
+                to: urlParams.get('to') || 'Unknown',
+                date: urlParams.get('date') || 'Not Provided'
+            };
+        }
+        
+        function displayResults() {
+            const params = getQueryParams();
+            document.getElementById("searchDetails").innerText = `Showing results for ${params.transportType} travel from ${params.from} to ${params.to} on ${params.date}`;
+            
+            const results = {
+    flight: [
+        { name: "IndiGo", price: "₹4500", time: "3:00 PM - 6:00 PM" },
+        { name: "Air India", price: "₹7000", time: "5:00 AM - 8:00 AM" },
+        { name: "SpiceJet", price: "₹5500", time: "12:00 PM - 3:00 PM" },
+        { name: "Vistara", price: "₹6000", time: "7:00 PM - 10:00 PM" },
+        { name: "GoAir", price: "₹4000", time: "2:00 PM - 5:00 PM" }
+    ],
+    bus: [
+        { name: "VRL Travels", price: "₹700", time: "9:00 AM - 1:00 PM" },
+        { name: "KSRTC", price: "₹600", time: "8:00 AM - 12:00 PM" },
+        { name: "SRS Travels", price: "₹800", time: "6:00 PM - 10:00 PM" },
+        { name: "Neeta Travels", price: "₹850", time: "5:00 PM - 9:00 PM" },
+        { name: "KPN Travels", price: "₹750", time: "7:00 AM - 11:00 AM" }
+    ],
+    train: [
+        { name: "Shatabdi Express", price: "₹1500", time: "10:00 AM - 2:00 PM" },
+        { name: "Rajdhani Express", price: "₹2000", time: "4:00 PM - 8:00 PM" },
+        { name: "Duronto Express", price: "₹1800", time: "6:00 AM - 10:00 AM" },
+        { name: "Vande Bharat Express", price: "₹2500", time: "12:00 PM - 4:00 PM" },
+        { name: "Jan Shatabdi", price: "₹1000", time: "9:00 AM - 1:00 PM" }
+    ]
+};
+
+            
+            let resultsHtml = '';
+            const selectedResults = results[params.transportType.toLowerCase()];
+            if (!selectedResults) {
+                resultsHtml = `<p class="text-danger">No results found for the selected transport type.</p>`;
+            } else {
+                selectedResults.forEach(result => {
+                    resultsHtml += `
+                        <div class="result-card">
+                            <h4>${result.name}</h4>
+                            <p>Time: ${result.time}</p>
+                            <p>Price: ${result.price}</p>
+                            <a href="booking.html?name=${result.name}&time=${result.time}&price=${result.price}" class="btn btn-danger">Book Now</a>
+                        </div>
+                    `;
+                });
+            }
+            document.getElementById("resultsContainer").innerHTML = resultsHtml;
+          
+            if (params.transportType === 'Not Selected') {
+                document.getElementById("searchDetails").innerText = "Please select a transport type to see results.";
+            }
+        }
+        
+        window.onload = displayResults;
+    </script>
+    
+</body>
+</html>

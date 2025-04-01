@@ -3,204 +3,252 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Punya Yatra - Your Complete Pilgrimage Planner</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <title>Punya Yatra - Book Your Journey</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-            background: #343a40;
-            color: white;
+
+        /* ===== Header Styling ===== */
+        .navbar {
+            background: rgba(255, 0, 0, 0.9);
         }
-        .header img {
-            height: 50px;
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: bold;
         }
-        .header-buttons button {
-            margin-left: 10px;
+        .nav-link {
+            color: white !important;
+            margin-right: 15px;
+            font-size: 1.1rem;
+            transition: 0.3s;
         }
-        .search-bar {
-            text-align: center;
-            margin: 20px 0;
+        .nav-link:hover {
+            color: #ffd700 !important;
         }
-        .marquee-container {
-            background: #f8f9fa;
-            padding: 10px;
-            overflow: hidden;
-            white-space: nowrap;
-        }
+
+        /* ===== Hero Section ===== */
         .hero {
-            background: url('temple.jpg') center/cover no-repeat;
-            height: 300px;
+            height: 70vh;
+            background: url('https://source.unsplash.com/1600x900/?travel,airport,train') no-repeat center center/cover;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            text-shadow: 2px 2px 10px black;
-        }
-        .booking-section {
-            padding: 40px 0;
-            background: #f8f9fa;
-        }
-        .booking-option {
-            position: relative;
-            cursor: pointer;
             text-align: center;
-            color: white;
-            font-size: 24px;
+            padding: 40px;
+        }
+        .hero h1 {
+            font-size: 3rem;
             font-weight: bold;
-            text-shadow: 2px 2px 10px black;
-            overflow: hidden;
-            border-radius: 10px;
         }
-        .booking-option img {
+        .hero p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        .hero {
             width: 100%;
-            height: 220px;
-            border-radius: 10px;
-            transition: transform 0.3s ease-in-out;
+            max-width: 900px;
+            margin: auto;
+            overflow: hidden;
         }
-        .booking-option:hover img {
+        #travel-image {
+            width: 100%;
+            height: auto;
+        }
+
+        /* ===== Search Box ===== */
+        .search-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            margin-top: -30px;
+        }
+        .search-box input,
+        .search-box select {
+            border-radius: 8px;
+        }
+
+        /* ===== Transport Icons ===== */
+        .transport-icons img {
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .transport-icons img:hover {
             transform: scale(1.1);
         }
-        .booking-option::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 10px;
+        .selected {
+            border: 3px solid #ff5733;
+            border-radius: 12px;
         }
-        .booking-option p {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 2;
+
+        /* ===== Footer ===== */
+        footer {
+            background: #222;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .social-icons a {
+            color: white;
+            font-size: 1.4rem;
+            margin: 0 10px;
+            transition: 0.3s;
+        }
+        .social-icons a:hover {
+            color: #ffd700;
         }
     </style>
 </head>
 <body>
-    <!-- Header Section -->
-    <div class="header">
-        <img src="images/logo.png" alt="Logo">
-        <h2>Punya Yatra - Your Complete Pilgrimage Planner</h2>
-        <div class="header-buttons">
-            <button class="btn btn-light" onclick="location.href='./login.html'">Login</button>
-            <button class="btn btn-primary" onclick="location.href='./signUp.html'">Sign Up</button>
-        </div>
-    </div>
 
-    <!-- Search Bar -->
-    <div class="search-bar">
-        <input type="text" class="form-control w-50 mx-auto" placeholder="Search for a temple...">
-    </div>
+    <!-- ===== Navbar ===== -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <img src="images/logo.png" alt="Logo" width="50" height="50" class="me-2" style="border-radius: 50%;" style="justify-content: left;">
 
-    <!-- Marquee Section for Temples -->
-    <div class="marquee-container">
-        <marquee>Explore Famous Temples of Maharashtra - Akkalkot Swami Samarth Temple,Pandharpur Vittal-Rakumai Temple,Tuljapur Tulja-Bhavani Temple,Shirdi Sai Baba Temple, Trimbakeshwar Temple, Mahalaxmi Temple, Bhimashankar Temple, Siddhivinayak Temple</marquee>
-    </div>
-
-    <!-- Hero Section -->
-    <div class="hero text-center">
-        <h1>Explore Maharashtra's Temples & Plan Your Journey</h1>
-    </div>
-
-    <!-- Booking Options
-    <div class="container booking-section">
-        <h2 class="text-center mb-4">Plan Your Stay & Travel</h2>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="booking-option" onclick="handleBooking('hotel')">
-                    <img src="images/hotel.jpg" alt="Hotel Booking">
-                    <p>Book a Hotel</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="booking-option" onclick="handleBooking('restaurant')">
-                    <img src="images/restaurant.jpg" alt="Restaurant Booking">
-                    <p>Book a Restaurant</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="booking-option" onclick="handleBooking('travel')">
-                    <img src="images/travel.png" alt="Travel Booking">
-                    <p>Book Tickets</p>
-                </div>
+            <a class="navbar-brand" href="#">Punya Yatra : Your Complete Pilgrimage Planner</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index2.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Bookings</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                </ul>
             </div>
         </div>
-    </div>-->
-    <div class="container mt-4">
-        <h2 class="text-center">Explore Famous Temples</h2>
-        <div class="temple-display text-center">
-            <img id="temple-image" src="images/sai-baba-temple.png" alt="Temple" width="400px" height="250px">
-            <h4 id="temple-name">Shirdi Sai Baba Temple</h4>
-            <p id="temple-location">Location: Shirdi, Maharashtra</p>
-            <div>
-                <button class="btn btn-secondary" onclick="prevTemple()">Previous</button>
-                <button class="btn btn-primary" onclick="nextTemple()">Next</button>
-            </div>
+    </nav>
+
+    <!-- ===== Hero Section ===== -->
+    <section class="hero">
+        <div>
+            <img id="travel-image" src="images/flight.jpg" alt="Travel" width="1000px" height="350px">
         </div>
+    </section>
+
+   
+
+    <!-- ===== Search Box ===== -->
+    <div class="container search-box">
+    
+        <!-- Display a selected name in h3 -->
+        <h3 id="title" class="text-center">Book a ticket </h3>
+        
+        <!-- Transport Selection -->
+        <div class="text-center transport-icons">
+            <img src="images/flight.jpg" alt="Flight" id="flightIcon" onclick="selectMode('Flight')"> 
+            <img src="images/train.jpg" alt="Train" id="trainIcon" onclick="selectMode('Train')">
+            <img src="images/bus.jpg" alt="Bus" id="busIcon" onclick="selectMode('Bus')">
+        </div>
+
+        <!-- Search Form -->
+        <form id="searchForm">
+            <input type="hidden" id="transportType" name="transportType">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">From</label>
+                    <input type="text" class="form-control" id="from" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">To</label>
+                    <input type="text" class="form-control" id="to" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Date</label>
+                    <input type="date" class="form-control" id="date" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-danger w-100 mt-3">Search</button>
+        </form>
     </div>
-    
 
-    <script>
-        const temples = [
-            { img: "images/sai-baba-temple.png", name: "Shirdi Sai Baba Temple", location: "Shirdi, Maharashtra" },
-            { img: "images/swami-samarth-temple.jpg", name: "Swami Samarth Temple", location: "Akkalkot, Maharashtra" },
-           //{ img: "mahalaxmi.jpg", name: "Mahalaxmi Temple", location: "Kolhapur, Maharashtra" },
-           // { img: "tuljapur.jpg", name: "Tulja Bhavani Temple", location: "Tuljapur, Maharashtra" }
-        ];
-    
-        let currentIndex = 0;
-        const templeImage = document.getElementById("temple-image");
-        const templeName = document.getElementById("temple-name");
-        const templeLocation = document.getElementById("temple-location");
-    
-        function updateTemple() {
-            templeImage.src = temples[currentIndex].img;
-            templeName.textContent = temples[currentIndex].name;
-            templeLocation.textContent = `Location: ${temples[currentIndex].location}`;
-        }
-    
-        function nextTemple() {
-            currentIndex = (currentIndex + 1) % temples.length;
-            updateTemple();
-        }
-    
-        function prevTemple() {
-            currentIndex = (currentIndex - 1 + temples.length) % temples.length;
-            updateTemple();
-        }
-    
-        // Auto change every 5 seconds
-        setInterval(nextTemple, 5000);
-    </script>
-    
-
-    <!-- Footer -->
-    <footer class="text-center p-3 mt-4 bg-dark text-white">
-        <p>&copy; 2025 Punya Yatra</p>
+    <!-- ===== Footer ===== -->
+    <footer>
+        <p>© 2025 Punya Yatra. All Rights Reserved.</p>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!--<script>
-        var isLoggedIn = {{ 'true' if session.get('loggedin', False) else 'false' }}; // Ensure this is rendered server-side
-    
-        function handleBooking(type) {
-            if (!isLoggedIn) {
-                alert("Please login first to proceed with booking.");
-                window.location.href = "/login";
-            } else {
-                window.location.href = "/book/" + type;
-            }
+    <script>
+        function selectMode(mode) {
+            document.getElementById("transportType").value = mode;
+            document.querySelectorAll('.transport-icons img').forEach(img => img.classList.remove('selected'));
+            document.getElementById(mode.toLowerCase() + 'Icon').classList.add('selected');
+            document.getElementById("title").innerText = `Book a ${mode} Ticket`;
         }
-    </script>-->
-    
+
+        document.getElementById("searchForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const transportType = document.getElementById("transportType").value;
+            const from = document.getElementById("from").value;
+            const to = document.getElementById("to").value;
+            const date = document.getElementById("date").value;
+            window.location.href = `results.html?transportType=${transportType}&from=${from}&to=${to}&date=${date}`;
+        });
+    </script>
+
+
+<script>
+    let autoSwitchStopped = false;  // Flag for controlling auto-switch
+
+const temples = [
+    { img: "images/flight.jpg" },
+    { img: "images/train.jpg" },
+    { img: "images/bus.jpg" }
+];
+
+let currentIndex = 0;
+let autoSwitch; // Interval reference for auto-switch
+
+// Function to update the travel image
+function updateTravel() {
+    const templeImage = document.getElementById("travel-image");
+
+    if (templeImage) {
+        templeImage.src = temples[currentIndex].img; // Update image
+       
+        templeImage.style.transition = "opacity 0.5s ease-in-out"; // Add transition effect
+       //Change width and height of image
+        templeImage.style.width = "1000px"; // Set width to 900px
+        templeImage.style.height = "350px"; // Set height to 350px
+
+        currentIndex = (currentIndex + 1) % temples.length; // Loop through images
+    }
+}
+
+// Start auto-switch for image change every 5 seconds
+function startAutoSwitch() {
+    autoSwitch = setInterval(updateTravel, 5000); // Set interval to auto-change every 5 seconds
+}
+
+// Reset auto-switch when user manually changes (optional functionality)
+function resetAutoSwitch() {
+    clearInterval(autoSwitch);  // Clear previous interval
+    startAutoSwitch();  // Restart the auto-switch
+}
+
+// Load initial image and start auto-switching on page load
+window.onload = () => {
+    updateTravel(); // Ensure first image is loaded
+    startAutoSwitch(); // Start the auto-switch functionality
+}
+</script>
+
+   
+
 </body>
 </html>
