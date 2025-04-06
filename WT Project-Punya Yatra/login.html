@@ -21,13 +21,20 @@
             background:linear-gradient(160deg,#d0e534 0%, #d4fc79 30%,#c2e9fb 60%, #a1c4fd 100%);
             border-radius: 30px;
             padding: 20px;
+            text-align: center;
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
-        h2, h3 {
+        h3 {
             text-align: center;
+            padding-left: 10px;
+            padding-right: 10px;
             margin: 5px 0;
+        }
+        img{
+            height: 70px;
+            align-self: center;
         }
         .eye-icon {
             position: absolute;
@@ -49,6 +56,10 @@
             display: flex;
             justify-content: space-between;
             gap: 10px;
+        }
+        p.option {
+            font-size: 88%;
+            text-align: center;
         }
         
         button {
@@ -86,12 +97,12 @@
             }
         }
     </style>
-    <title>SignUp Page</title>
+    <title>Login Page</title>
 </head>
 <body>
     
     <form action="signup.php" method="post">
-        <h2>Punya Yatra</h2>
+        <img src="images/logo2.png" alt="Logo">
         <h3>Log In</h3>
         <div>
             <input type="text" name="username" id="username" placeholder="Username">
@@ -104,7 +115,7 @@
             <button type="submit">Sign In</button>
             <button type="reset">Reset</button>
         </div>
-        <p class="option">Don't have an account <a href="index.html">Sign Up here</a></p>
+        <p class="option">Don't have an account <a href="signUp.html">Sign Up here</a></p>
     </form>
     <script>
         function togglePassword() {

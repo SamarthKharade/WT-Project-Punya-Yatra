@@ -17,9 +17,10 @@
     .web-logo{
       height: 60px;
     }
-
+    
     body {
       background-color: #f4f4f4;
+      background-color: aquamarine;
       text-align: center;
     }
 
@@ -65,7 +66,7 @@
 
     .booking-form button {
       padding: 10px 20px;
-      background: #343a40;
+      background: rgb(41, 41, 250);
       color: white;
       border: none;
       border-radius: 5px;
@@ -74,7 +75,7 @@
     }
 
     .booking-form button:hover {
-      background: #343a40;
+      background:rgb(1, 1, 165);
     }
   </style>
 </head>
@@ -96,6 +97,11 @@
             <option value="Triple">Triple</option>
             <option value="Quad">Quad</option>
             <option value="Connecting Rooms">Connecting Rooms</option>
+        </select>
+        <select name="acType" id="acType">
+          <option value="" disabled selected>Select AC Type</option>
+          <option value="ac">AC</option>
+          <option value="nonac">non AC</option>
         </select>
         <input type="number" name="numPeople" placeholder="Number of People" min="1" required />
         <input type="number" name="numTables" placeholder="Number of Rooms" min="1" required />

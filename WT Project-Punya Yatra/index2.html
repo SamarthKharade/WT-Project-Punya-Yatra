@@ -45,43 +45,43 @@
             background: #f8f9fa;
         }
         .temple-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 85%;
-    max-width: 900px; /* Limits maximum width */
-    margin: 50px auto; /* Centers the div */
-    padding: 30px;
-    background: rgb(249, 252, 253);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    text-align: center;
-}
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 85%;
+            max-width: 900px; /* Limits maximum width */
+            margin: 50px auto; /* Centers the div */
+            padding: 30px;
+            background: rgb(249, 252, 253);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            text-align: center;
+        }
 
-.temple-card img {
-    width: 100%; /* Full width of card */
-    height: auto;
-    max-height: 400px; /* Large image but within limits */
-    border-radius: 10px;
-}
+        .temple-card img {
+            width: 100%; /* Full width of card */
+            height: auto;
+            max-height: 400px; /* Large image but within limits */
+            border-radius: 10px;
+        }
 
-.temple-card h5 {
-    font-size: 28px; /* Bigger title */
-    margin-top: 20px;
-    font-weight: bold;
-}
+        .temple-card h5 {
+            font-size: 28px; /* Bigger title */
+            margin-top: 20px;
+            font-weight: bold;
+        }
 
-.temple-card p {
-    font-size: 22px;
-    margin-bottom: 20px;
-}
+        .temple-card p {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
 
-.temple-card button {
-    margin: 10px;
-    font-size: 18px;
-    padding: 10px 20px;
-}
+        .temple-card button {
+            margin: 10px;
+            font-size: 18px;
+            padding: 10px 20px;
+        }
 
         .booking-section {
             padding: 40px 0;
@@ -231,115 +231,122 @@
    
 
     <script>
-    let autoSwitchStopped = false; 
+        let autoSwitchStopped = false; 
     
-    const temples = [
-    { img: "images/sai-baba-temple.png", name: "Sai Baba Temple", location: "Shirdi, Maharashtra" },
-    { img: "images/swami-samarth-temple.jpg", name: "Swami Samarth Temple", location: "Akkalkot, Maharashtra" },
-    { img: "images/pandharpur-temple.jpg", name: "Vittal Rakumai Temple", location: "Pandharpur, Maharashtra" },
-    { img: "images/tuljapur-temple.jpg", name: "Tulja Bhavani Temple", location: "Tuljapur, Maharashtra" }
-];
+        const temples = [
+            { img: "images/sai-baba-temple.png", name: "Sai Baba Temple", location: "Shirdi, Maharashtra" },
+            { img: "images/swami-samarth-temple.jpg", name: "Swami Samarth Temple", location: "Akkalkot, Maharashtra" },
+            { img: "images/pandharpur-temple.jpg", name: "Vittal Rakumai Temple", location: "Pandharpur, Maharashtra" },
+            { img: "images/tuljapur-temple.jpg", name: "Tulja Bhavani Temple", location: "Tuljapur, Maharashtra" }
+        ];
 
-let currentIndex = 0;
-let autoSwitch; // To store the interval reference
-autoSwitch = setInterval(nextTemple, 10000); // To store the interval reference
-function updateTemple() {
-    const templeImage = document.getElementById("temple-image");
-    const templeName = document.querySelector(".temple-name");
-    const templeLocation = document.querySelector(".temple-location");
+        let currentIndex = 0;
+        let autoSwitch; // To store the interval reference
+        autoSwitch = setInterval(nextTemple, 10000); // To store the interval reference
+        function updateTemple() {
+            const templeImage = document.getElementById("temple-image");
+            const templeName = document.querySelector(".temple-name");
+            const templeLocation = document.querySelector(".temple-location");
+        
+            if (templeImage && templeName && templeLocation) {
+                templeImage.src = temples[currentIndex].img;
+                templeName.textContent = temples[currentIndex].name;
+                templeLocation.textContent = `Location: ${temples[currentIndex].location}`;
+            }
+        
+        
+        
+        
 
-    if (templeImage && templeName && templeLocation) {
-        templeImage.src = temples[currentIndex].img;
-        templeName.textContent = temples[currentIndex].name;
-        templeLocation.textContent = `Location: ${temples[currentIndex].location}`;
-    }
+        }
 
-   
-  
+        function nextTemple() {
+        
+            currentIndex = (currentIndex + 1) % temples.length;
+            updateTemple();
+            resetAutoSwitch();
+        }
 
-    
-}
+        function prevTemple() {
+        
+        
+        
+            currentIndex = (currentIndex - 1 + temples.length) % temples.length;
+            updateTemple();
+            resetAutoSwitch();
+        }
 
-function nextTemple() {
-   
-    currentIndex = (currentIndex + 1) % temples.length;
-    updateTemple();
-    resetAutoSwitch();
-}
+        // Auto change every 5 seconds
+        function startAutoSwitch() {
+            autoSwitch = setInterval(nextTemple, 10000);
+        }
 
-function prevTemple() {
-
-   
-
-    currentIndex = (currentIndex - 1 + temples.length) % temples.length;
-    updateTemple();
-    resetAutoSwitch();
-}
-
-// Auto change every 5 seconds
-function startAutoSwitch() {
-    autoSwitch = setInterval(nextTemple, 10000);
-}
-
-// Reset auto switch timer when the user manually changes
-function resetAutoSwitch() {
-
-    clearInterval(autoSwitch);
-    startAutoSwitch();
-}
-
-// Ensure the first temple loads correctly
-window.onload = () => {
-    updateTemple();
-    startAutoSwitch();
-
-    // Attach event listeners only after DOM is fully loaded
-    const templeCard = document.querySelector(".temple-card");
-    if (templeCard) {
-        templeCard.addEventListener("mouseenter", () => clearInterval(autoSwitch));
-        templeCard.addEventListener("mouseleave", startAutoSwitch);
-    }
-};
-
-function filterTemples() {
-    const input = document.getElementById("searchInput").value.toLowerCase().trim();
-    const foundTemple = temples.find(temple =>
-        temple.name.toLowerCase().includes(input) || 
-        temple.location.toLowerCase().includes(input)
-    );
-
-    if (foundTemple) {
-        const templeImage = document.getElementById("temple-image");
-        const templeName = document.querySelector(".temple-name");
-        const templeLocation = document.querySelector(".temple-location");
-
-        templeImage.src = foundTemple.img;
-        templeName.textContent = foundTemple.name;
-        templeLocation.textContent = `Location: ${foundTemple.location}`;
-
-        // Update index for smooth transitions
-        currentIndex = temples.findIndex(temple => temple.name === foundTemple.name);
-
-         // Stop auto-switching permanently until the page is refreshed
-         
+        // Reset auto switch timer when the user manually changes
+        function resetAutoSwitch() {
+        
             clearInterval(autoSwitch);
-            autoSwitch = null;  // Set to null to ensure it does not restart
-          
-       
-    } else if (input === "") {
-        // If input is empty, reset to the first temple
-        currentIndex = 0;
-       
-        updateTemple();
-     
-     
-     
-       
-    } 
-     else {
-        alert("Temple not found. Try another search!");
-    }
-}
+            startAutoSwitch();
+        }
+
+        // Ensure the first temple loads correctly
+        window.onload = () => {
+            updateTemple();
+            startAutoSwitch();
+        
+            // Attach event listeners only after DOM is fully loaded
+            const templeCard = document.querySelector(".temple-card");
+            if (templeCard) {
+                templeCard.addEventListener("mouseenter", () => clearInterval(autoSwitch));
+                templeCard.addEventListener("mouseleave", startAutoSwitch);
+            }
+        };
+
+        const inputVal = document.getElementById("searchInput")
+        inputVal.addEventListener('keydown', function(event){
+            if(event.key ==='Enter'){
+                filterTemples()
+            }
+        })
+
+        function filterTemples() {
+            const input = inputVal.value.toLowerCase().trim();
+            const foundTemple = temples.find(temple =>
+                temple.name.toLowerCase().includes(input) || 
+                temple.location.toLowerCase().includes(input)
+            );
+        
+            if (foundTemple) {
+                const templeImage = document.getElementById("temple-image");
+                const templeName = document.querySelector(".temple-name");
+                const templeLocation = document.querySelector(".temple-location");
+            
+                templeImage.src = foundTemple.img;
+                templeName.textContent = foundTemple.name;
+                templeLocation.textContent = `Location: ${foundTemple.location}`;
+            
+                // Update index for smooth transitions
+                currentIndex = temples.findIndex(temple => temple.name === foundTemple.name);
+            
+                 // Stop auto-switching permanently until the page is refreshed
+
+                    clearInterval(autoSwitch);
+                    autoSwitch = null;  // Set to null to ensure it does not restart
+
+            
+            } else if (input === "") {
+                // If input is empty, reset to the first temple
+                currentIndex = 0;
+            
+                updateTemple();
+            
+            
+            
+            
+            } 
+             else {
+                alert("Temple not found. Try another search!");
+            }
+        }
 
     </script>
 
