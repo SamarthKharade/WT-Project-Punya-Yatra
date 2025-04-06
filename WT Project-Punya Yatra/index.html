@@ -133,7 +133,7 @@
     <!-- ===== Hero Section ===== -->
     <section class="hero">
         <div>
-            <img id="travel-image" src="images/flight.jpg" alt="Travel" width="1000px" height="350px">
+            <img id="travel-image" src="images/flight.jpg" alt="Travel" style="width: 1000px; height: 350px;" fit="cover">
         </div>
     </section>
 
@@ -202,51 +202,51 @@
     </script>
 
 
-<script>
-    let autoSwitchStopped = false;  // Flag for controlling auto-switch
-
-const temples = [
-    { img: "images/flight.jpg" },
-    { img: "images/train.jpg" },
-    { img: "images/bus.jpg" }
-];
-
-let currentIndex = 0;
-let autoSwitch; // Interval reference for auto-switch
-
-// Function to update the travel image
-function updateTravel() {
-    const templeImage = document.getElementById("travel-image");
-
-    if (templeImage) {
-        templeImage.src = temples[currentIndex].img; // Update image
-       
-        templeImage.style.transition = "opacity 0.5s ease-in-out"; // Add transition effect
-       //Change width and height of image
-        templeImage.style.width = "1000px"; // Set width to 900px
-        templeImage.style.height = "350px"; // Set height to 350px
-
-        currentIndex = (currentIndex + 1) % temples.length; // Loop through images
+    <script>
+        let autoSwitchStopped = false;  // Flag for controlling auto-switch
+    
+    const temples = [
+        { img: "images/flight.jpg" },
+        { img: "images/train.jpg" },
+        { img: "images/bus.jpg" }
+    ];
+    
+    let currentIndex = 0;
+    let autoSwitch; // Interval reference for auto-switch
+    
+    // Function to update the travel image
+    function updateTravel() {
+        const templeImage = document.getElementById("travel-image");
+    
+        if (templeImage) {
+            templeImage.src = temples[currentIndex].img; // Update image
+        
+            templeImage.style.transition = "opacity 0.5s ease-in-out"; // Add transition effect
+           //Change width and height of image
+           // templeImage.style.width = "1000px"; // Set width to 900px
+            //templeImage.style.height = "350px"; // Set height to 350px
+        
+            currentIndex = (currentIndex + 1) % temples.length; // Loop through images
+        }
     }
-}
-
-// Start auto-switch for image change every 5 seconds
-function startAutoSwitch() {
-    autoSwitch = setInterval(updateTravel, 5000); // Set interval to auto-change every 5 seconds
-}
-
-// Reset auto-switch when user manually changes (optional functionality)
-function resetAutoSwitch() {
-    clearInterval(autoSwitch);  // Clear previous interval
-    startAutoSwitch();  // Restart the auto-switch
-}
-
-// Load initial image and start auto-switching on page load
-window.onload = () => {
-    updateTravel(); // Ensure first image is loaded
-    startAutoSwitch(); // Start the auto-switch functionality
-}
-</script>
+    
+    // Start auto-switch for image change every 5 seconds
+    function startAutoSwitch() {
+        autoSwitch = setInterval(updateTravel, 5000); // Set interval to auto-change every 5 seconds
+    }
+    
+    // Reset auto-switch when user manually changes (optional functionality)
+    function resetAutoSwitch() {
+        clearInterval(autoSwitch);  // Clear previous interval
+        startAutoSwitch();  // Restart the auto-switch
+    }
+    
+    // Load initial image and start auto-switching on page load
+    window.onload = () => {
+        updateTravel(); // Ensure first image is loaded
+        startAutoSwitch(); // Start the auto-switch functionality
+    }
+    </script>
 
    
 
