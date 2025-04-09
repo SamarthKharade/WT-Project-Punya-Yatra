@@ -15,7 +15,7 @@
     }
 
     .web-logo{
-      height: 50px;
+      height: 70px;
     }
 
     body {
@@ -27,9 +27,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
-      background: #343a40;
-      color: white;
+      padding: 10px;
+      /* background: #343a40; */
+      background: white;
+      /* color: white; */
       font-size: 24px;
       top: 0;
       left: 0;
@@ -118,8 +119,8 @@
 </head>
 <body>
   <header>
-    <div class="logo">
-      <img src="images/logo.png" alt="logo" class="web-logo">
+    <div class="logo" onclick="location.href='{{ url_for('home') }}'">
+      <img src="../static/images/logo2.png" alt="logo" class="web-logo">
     </div>
     <h1 style="width: 90vw;">Book Hotels</h1>
   </header>
@@ -129,7 +130,7 @@
   </section>
   <section class="restaurant-list">
     <div class="restaurant-card">
-      <img src="images/TJ02.webp" alt="Hotel Image" />
+      <img src="../static/images/TJ02.webp" alt="Hotel Image" />
       <div class="info">
         <h2>Hotel Darshan Executive</h2>
         <p>Near Tulja Bhawani Temple</p>
@@ -138,7 +139,7 @@
       </div>
     </div>
     <div class="restaurant-card">
-      <img src="images/TJ01.jpg" alt="Hotel Image" />
+      <img src="../static/images/TJ01.jpg" alt="Hotel Image" />
       <div class="info">
         <h2>Palange Lodging And Services</h2>
         <p>Near Tulja Bhawani Temple</p>
@@ -147,7 +148,7 @@
       </div>
     </div>
     <div class="restaurant-card">
-      <img src="images/SS01.jpg" alt="Hotel Image" />
+      <img src="../static/images/SS01.jpg" alt="Hotel Image" />
       <div class="info">
         <h2>Masuti Homestay(AC & Non AC)</h2>
         <p>Near Swami Samarth Temple</p>
@@ -156,7 +157,7 @@
       </div>
     </div>
     <div class="restaurant-card">
-      <img src="images/SS02.JPG" alt="Hotel Image" />
+      <img src="../static/images/SS02.JPG" alt="Hotel Image" />
       <div class="info">
         <h2>Hotel Ajinkyatara</h2>
         <p>Near Swami Samarth Temple</p>
@@ -165,7 +166,7 @@
       </div>
     </div>
     <div class="restaurant-card">
-      <img src="images/VR01.jpg" alt="Hotel Image" />
+      <img src="../static/images/VR01.jpg" alt="Hotel Image" />
       <div class="info">
         <h2>ISKCON Chandrabhaga guest house</h2>
         <p>Near Vitthal Rukmini Temple</p>
@@ -174,7 +175,7 @@
       </div>
     </div>
     <div class="restaurant-card">
-      <img src="images/VR02.webp" alt="Hotel Image" />
+      <img src="../static/images/VR02.webp" alt="Hotel Image" />
       <div class="info">
         <h2>Hotel Marigold Regency</h2>
         <p>Near Vitthal Rukmini Temple</p>
@@ -197,11 +198,9 @@
 </footer>
   
   <script>
-    // Attach click event listeners to all book now buttons
     document.querySelectorAll('.book-btn').forEach(button => {
       button.addEventListener('click', () => {
-        // Redirect to booking page
-        window.location.href = 'hotelBooking.html';
+        location.href='{{ url_for('hotelBooking') }}';
       });
     });
   </script>
