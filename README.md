@@ -1,6 +1,6 @@
 # WT-Project-Punya-Yatra
 
-* Dependencies *
+@ Dependencies 
 - Python 
 - Flask
 
