@@ -1,6 +1,7 @@
 from logging import exception
 from flask import Flask, redirect, render_template,request, session, url_for
 import mysql.connector # type: ignore
+import json
 
 app = Flask(__name__)
 
@@ -89,28 +90,37 @@ def signup():
 # Route to hotel
 @app.route('/hotel')
 def hotel():
+    if 'username' not in session:
+        return redirect(url_for('login'))
     return render_template('hotels.html')
 
 # Route to hotel booking
 @app.route('/hotelBooking')
 def hotelBooking():
+    if 'username' not in session:
+        return redirect(url_for('login'))
     return render_template('hotelBooking.html')
 
 # Route to Restaurant 
 @app.route('/restaurant')
 def restaurant():
+    if 'username' not in session:
+        return redirect(url_for('login'))
     return render_template('restaurant2.html')
 
 # Route to transport
 @app.route('/transport')
 def transport():
+    if 'username' not in session:
+        return redirect(url_for('login'))
     return render_template('index.html')
 
 # Route to Restaurant Booking
 @app.route('/restaurantBooking',methods=['GET', 'POST'])
 def restaurantBooking():
+     if 'username' not in session:
+        return redirect(url_for('login'))
      
-
      if request.method == 'POST':
         name2 = request.form['customerName']
         date_of_booking = request.form['date']
@@ -133,6 +143,8 @@ def restaurantBooking():
 
 @app.route('/results')
 def results():
+    if 'username' not in session:
+        return redirect(url_for('login'))
     transport_type = request.args.get('transportType')
     from_location = request.args.get('from')
     to_location = request.args.get('to')
@@ -161,6 +173,20 @@ def profile():
         return render_template('profile.html', user=user)
     else:
         return "User not found!"
+
+
+@app.route('/blog/<int:place_id>')
+def blog(place_id):
+    with open('places.json', 'r') as f:
+        places = json.load(f)
+
+    # Find the place with the matching ID
+    place = next((p for p in places if p['id'] == place_id), None)
+
+    if not place:
+        return "Place not found!"
+
+    return render_template('blogTemp.html', place=place)
 
 
 if __name__ == "__main__":
