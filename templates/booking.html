@@ -87,13 +87,13 @@
   </header>
   <div class="booking-form">
     <h2>Book Your Table</h2>
-    <form id="bookingForm" action="#" method="POST">
+    <form id="bookingForm" action="/restaurantBooking" method="post">
       <input type="text" name="customerName" placeholder="Customer Name" required />
       <input type="date" name="date" placeholder="Select Date" required>
       <input type="time" name="bookingTime" placeholder="Select Time" required />
       <input type="number" name="numPeople" placeholder="Number of People" min="1" required />
       <input type="number" name="numTables" placeholder="Number of Tables" min="1" required />
-      <button type="submit">Submit</button>
+      <button type="submit" >Submit</button>
     </form>
   </div>
 
@@ -112,10 +112,11 @@
   <script>
     const form = document.getElementById('bookingForm');
     form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      // Here you can add your booking logic, e.g., send form data to a server
-      alert('Booking submitted successfully!');
-    });
+  // Optional pre-submit logic (e.g., validations)
+  alert('Booking submitted successfully!');
+  // Don’t call e.preventDefault(); let the form go to Flask route
+});
+
   </script>
 </body>
 </html>

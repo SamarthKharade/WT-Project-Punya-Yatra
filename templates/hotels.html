@@ -115,6 +115,11 @@
       background-color: #343a40;
       color: white;
     }
+
+    .hidden {
+  display: none !important;
+}
+
   </style>
 </head>
 <body>
@@ -125,60 +130,60 @@
     <h1 style="width: 90vw;">Book Hotels</h1>
   </header>
   <section class="search-bar">
-    <input type="text" placeholder="Search Hotels by Temple Location..." />
-    <button>Search</button>
+    <input type="text" id="cityInput" name="cityInput" placeholder="Search Hotels by Temple Location..." />
+    <button name="search" onclick="filterHotels()">Search</button>
   </section>
   <section class="restaurant-list">
-    <div class="restaurant-card">
+    <div class="restaurant-card hotel" data-city="Tuljapur">
       <img src="../static/images/TJ02.webp" alt="Hotel Image" />
       <div class="info">
         <h2>Hotel Darshan Executive</h2>
-        <p>Near Tulja Bhawani Temple</p>
+        <p>Near Tulja Bhawani Temple.Tuljapur</p>
         <p>Distance: 500m</p>
         <button class="book-btn">Book Now</button>
       </div>
     </div>
-    <div class="restaurant-card">
+    <div class="restaurant-card hotel" data-city="Tuljapur">
       <img src="../static/images/TJ01.jpg" alt="Hotel Image" />
       <div class="info">
         <h2>Palange Lodging And Services</h2>
-        <p>Near Tulja Bhawani Temple</p>
+        <p>Near Tulja Bhawani Temple,Tuljapur</p>
         <p>Distance: 750m</p>
         <button class="book-btn">Book Now</button>
       </div>
     </div>
-    <div class="restaurant-card">
+    <div class="restaurant-card hotel" data-city="Akkalkot">
       <img src="../static/images/SS01.jpg" alt="Hotel Image" />
       <div class="info">
         <h2>Masuti Homestay(AC & Non AC)</h2>
-        <p>Near Swami Samarth Temple</p>
+        <p>Near Swami Samarth Temple,Akkalkot</p>
         <p>Distance: 600m</p>
         <button class="book-btn">Book Now</button>
       </div>
     </div>
-    <div class="restaurant-card">
+    <div class="restaurant-card hotel" data-city="Akkalkot">
       <img src="../static/images/SS02.JPG" alt="Hotel Image" />
       <div class="info">
         <h2>Hotel Ajinkyatara</h2>
-        <p>Near Swami Samarth Temple</p>
+        <p>Near Swami Samarth Temple,Akkalkot</p>
         <p>Distance: 900m</p>
         <button class="book-btn">Book Now</button>
       </div>
     </div>
-    <div class="restaurant-card">
+    <div class="restaurant-card hotel" data-city="Pandharpur">
       <img src="../static/images/VR01.jpg" alt="Hotel Image" />
       <div class="info">
         <h2>ISKCON Chandrabhaga guest house</h2>
-        <p>Near Vitthal Rukmini Temple</p>
+        <p>Near Vitthal Rukmini Temple,Pandharpur</p>
         <p>Distance: 1.2km</p>
         <button class="book-btn">Book Now</button>
       </div>
     </div>
-    <div class="restaurant-card">
+    <div class="restaurant-card hotel" data-city="Pandharpur">
       <img src="../static/images/VR02.webp" alt="Hotel Image" />
       <div class="info">
         <h2>Hotel Marigold Regency</h2>
-        <p>Near Vitthal Rukmini Temple</p>
+        <p>Near Vitthal Rukmini Temple,Pandharpur</p>
         <p>Distance: 1km</p>
         <button class="book-btn">Book Now</button>
       </div>
@@ -203,6 +208,25 @@
         location.href='{{ url_for('hotelBooking') }}';
       });
     });
+
+
+    
   </script>
+
+<script>
+  function filterHotels() {
+      const input = document.getElementById('cityInput').value.toLowerCase();
+      const hotelDivs = document.querySelectorAll('.hotel');
+
+      hotelDivs.forEach(div => {
+          const city = div.getAttribute('data-city').toLowerCase();
+          if (city.includes(input)) {
+              div.classList.remove('hidden');
+          } else {
+              div.classList.add('hidden');
+          }
+      });
+  }
+</script>
 </body>
 </html>

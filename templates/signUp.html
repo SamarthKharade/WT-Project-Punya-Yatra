@@ -160,7 +160,7 @@
     <title>SignUp Page</title>
 </head>
 <body>
-    <form onsubmit="return validateForm()" action="signup.php" method="post" id="formBody">
+    <form onsubmit="return validateForm()" action="/signup" method="post" id="formBody">
         <img src="../static/images/logo2.png" alt="Logo">
         <h3>Sign Up</h3>
         
@@ -208,7 +208,7 @@
             <p class="Error" id="passError"></p>
         </div>
         <div class="form_info password-container">
-            <input type="password" oninput="checkRePass()" id="rePassword" placeholder="Re-enter Password" required>
+            <input type="password" oninput="checkRePass()" name="password" id="rePassword" placeholder="Re-enter Password" required>
             <span class="eye-icon" id="eye-icon" onclick="togglePassword()">👁️</span>
             <p class="Error" id="passAndconfirm" ></p>
         </div>

@@ -124,11 +124,11 @@
     <h1 style="width: 90vw;">Book Restaurant</h1>
   </header>
   <section class="search-bar">
-    <input type="text" placeholder="Search Restaurants by Temple Location..." />
-    <button>Search</button>
+    <input type="text" id="searchInput" placeholder="Search Restaurants by Temple Location..." />
+    <button onclick="filterRestaurants()">Search</button>
   </section>
   <section class="restaurant-list">
-    <div class="restaurant-card">
+    <div class="restaurant-card" data-name="Hotel Niranjan Dhaba" data-location="Tulja Bhawani Temple">
       <img src="../static/images/restaurant1.jpg" alt="Restaurant Image" />
       <div class="info">
         <h2>Hotel Niranjan Dhaba</h2>
@@ -137,7 +137,7 @@
         <button class="book-btn">Book Now</button>
       </div>
     </div>
-    <div class="restaurant-card">
+    <div class="restaurant-card" data-name="Jagdamba Devi Pure Vegetarian Restauran" data-location="Tulja Bhawani Temple">
       <img src="../static/images/restaurant2.jpg" alt="Restaurant Image" />
       <div class="info">
         <h2>Jagdamba Devi Pure Vegetarian Restaurant</h2>
@@ -146,7 +146,7 @@
         <button class="book-btn">Book Now</button>
       </div>
     </div>
-    <div class="restaurant-card">
+    <div class="restaurant-card" data-name="Joshi Bhojanalay" data-location="Swami Samarth Temple">
       <img src="../static/images/restaurant3.jpg" alt="Restaurant Image" />
       <div class="info">
         <h2>Joshi Bhojanalay</h2>
@@ -155,16 +155,16 @@
         <button class="book-btn">Book Now</button>
       </div>
     </div>
-    <div class="restaurant-card">
+    <div class="restaurant-card" data-name="Hotel Ajinkyatara" data-location="Swami Samarth Temple">
       <img src="../static/images/restaurant4.jpg" alt="Restaurant Image" />
       <div class="info">
         <h2>Hotel Ajinkyatara</h2>
         <p>Near Swami Samarth Temple</p>
         <p>Distance: 900m</p>
-        <button class="book-btn">Book Now</button>
+        <button class="book-btn" >Book Now</button>
       </div>
     </div>
-    <div class="restaurant-card">
+    <div class="restaurant-card" data-name="Hotel Radhesh Garden Pure Veg Restaurant" data-location="Vitthal Rukmini Temple">
       <img src="../static/images/restaurant5.jpg" alt="Restaurant Image" />
       <div class="info">
         <h2>Hotel Radhesh Garden Pure Veg Restaurant</h2>
@@ -173,7 +173,7 @@
         <button class="book-btn">Book Now</button>
       </div>
     </div>
-    <div class="restaurant-card">
+    <div class="restaurant-card" data-name="Mahajan Foods" data-location="Vitthal Rukmini Templ">
       <img src="../static/images/restaurant6.jpg" alt="Restaurant Image" />
       <div class="info">
         <h2>Mahajan Foods</h2>
@@ -205,5 +205,31 @@
       });
     });
   </script>
+
+<script>
+  // Book Now button redirection
+  document.querySelectorAll('.book-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      location.href = '{{ url_for("restaurantBooking") }}';
+    });
+  });
+
+  // Filter function
+  function filterRestaurants() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const cards = document.querySelectorAll('.restaurant-card');
+
+    cards.forEach(card => {
+      const name = card.dataset.name.toLowerCase();
+      const location = card.dataset.location.toLowerCase();
+      if (name.includes(input) || location.includes(input)) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+</script>
+
 </body>
 </html>

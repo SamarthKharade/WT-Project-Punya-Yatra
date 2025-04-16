@@ -101,14 +101,14 @@
 </head>
 <body>
     
-    <form action="signup.php" method="post">
+    <form action="/login" method="post">
         <img src="../static/images/logo2.png" alt="Logo" onclick="location.href='{{ url_for('home') }}'">
         <h3>Log In</h3>
         <div>
             <input type="text" name="username" id="username" placeholder="Username">
         </div>
         <div style="position: relative;">
-            <input type="password" id="Password" class="password" placeholder="Enter Password">
+            <input type="password" id="Password" name="password" class="password" placeholder="Enter Password">
             <span class="eye-icon" id="eye-icon" onclick="togglePassword()">👁️</span>
         </div>
         <div class="buttons">
