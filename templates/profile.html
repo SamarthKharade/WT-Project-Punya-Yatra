@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ user.name }}'s Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            color: rgb(240, 12, 12);
+            /* background: #343a40; */
+            background: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .header img {
+            height: 70px;
+        }
+
+        .profile-card {
+            max-width: 500px;
+            margin:auto;
+            margin-top:50px;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .profile-card h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-info {
+            margin: 10px 0;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .value {
+            margin-left: 10px;
+        }
+
+        .user-image{
+            display:flex;
+            flex-direction:row;
+            text-align:center;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="../static/images/logo2.png" alt="Logo" onclick="location.href='{{ url_for('home') }}'">
+        <h2><b>Punya Yatra</b> - Your Complete Pilgrimage Planner</h2>
+        <img src="static/images/userlogo.png" alt="User Logo" style="width: 50px; height: 50px;" onclick="toggleDropdown()">
+        <div id="dropdown" style="display: none; position: absolute; right: 0; background: #fff; border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.15);">
+            <a href="{{ url_for('profile') }}" style="display: block; padding: 10px; text-decoration: none; color: black;">Profile</a>
+            <a href="{{ url_for('logout') }}" style="display: block; padding: 10px; text-decoration: none; color: black;">Logout</a>
+        </div>
+            
+    </div>
+
+    <div class="profile-card">
+        <div class="user-image">
+            <img src="static/images/userlogo.png" height=50px width=50px ></img>
+            <h2>{{ user.name }}</h2>
+        </div>
+        <div class="profile-info"><span class="label">Username:</span><span class="value">{{ user.username }}</span></div>
+        <div class="profile-info"><span class="label">Gender:</span><span class="value">{{ user.gender }}</span></div>
+        <div class="profile-info"><span class="label">Age:</span><span class="value">{{ user.age }}</span></div>
+        <div class="profile-info"><span class="label">Country Code:</span><span class="value">{{ user.countrycode }}</span></div>
+        <div class="profile-info"><span class="label">Mobile:</span><span class="value">{{ user.mobile }}</span></div>
+        <div class="profile-info"><span class="label">Email:</span><span class="value">{{ user.email }}</span></div>
+        <div class="profile-info"><span class="label">Address:</span><span class="value">{{ user.address }}</span></div>
+    </div>
+
+
+    <script>
+        function toggleDropdown() {
+            var dropdown = document.getElementById("dropdown");
+            dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+        }
+        
+        // Close the dropdown if user clicks outside
+        window.onclick = function(event) {
+            if (!event.target.matches('img')) {
+                var dropdown = document.getElementById("dropdown");
+                if (dropdown && dropdown.style.display === "block") {
+                    dropdown.style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -7,18 +7,21 @@ app = Flask(__name__)
 app.secret_key = 'punya_yatra_2025_flask_secret'
 db = None
 cursor = None
-# Database connection function
+# Database connection function (chainge your connection credencial before running)
 try:
-           db = mysql.connector.connect(
-           host="localhost",
-           user="root",
-           password="Samarth@2004",
-           database="punyayatra",
-           auth_plugin='mysql_native_password')
-           cursor = db.cursor()
-           print("Database connected successfully!")
-except:
+    db = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="root",
+        database="punyayatra",
+        auth_plugin='mysql_native_password',
+        port=3306
+    )
+    cursor = db.cursor()
+    print("Database connected successfully!")
+except Exception as e:
     print("Database not connected!!!")
+    print("Error:", e)
 
 
 # Route to main page 
@@ -73,11 +76,10 @@ def signup():
         db.commit()
        # return "User registered successfully!"
         return redirect(url_for('login'))
-    except exception as e:
+    except Exception as e:
         return "Username already exists!"
     finally:
         cursor.close()
-        db.close()
 
   else:
     return render_template('signup.html')
@@ -141,7 +143,24 @@ def results():
 @app.route('/logout')
 def logout():
     session.pop('username', None)
-    return redirect(url_for('index2'))
+    return redirect(url_for('home'))
+
+
+@app.route('/profile')
+def profile():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    username = session['username']
+    cursor = db.cursor(dictionary=True)
+    cursor.execute("SELECT name, gender, age, countrycode, mobile, email, address, username FROM users WHERE username = %s", (username,))
+    user = cursor.fetchone()
+    cursor.close()
+
+    if user:
+        return render_template('profile.html', user=user)
+    else:
+        return "User not found!"
 
 
 if __name__ == "__main__":

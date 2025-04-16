@@ -15,11 +15,10 @@
     }
 
     .web-logo{
-      height: 50px;
+      height: 70px;
     }
 
     body {
-      background-color: aquamarine;
       text-align: center;
     }
 
@@ -28,9 +27,8 @@
       align-items: center;
       justify-content: center;
       padding: 20px;
-      background: #343a40;
-      color: white;
       font-size: 24px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
       top: 0;
       left: 0;
     }
@@ -118,8 +116,8 @@
 </head>
 <body>
   <header>
-    <div class="logo">
-      <img src="../static/images/logo.png" alt="logo" class="web-logo" onclick="location.href='{{ url_for('home') }}'">
+    <div class="logo" onclick="location.href='{{ url_for('home') }}'">
+      <img src="../static/images/logo2.png" alt="logo" class="web-logo">
     </div>
     <h1 style="width: 90vw;">Book Restaurant</h1>
   </header>
