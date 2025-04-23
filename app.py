@@ -1,7 +1,10 @@
+import os
+from datetime import datetime
 from logging import exception
 from flask import Flask, redirect, render_template,request, session, url_for
 import mysql.connector # type: ignore
 import json
+
 
 app = Flask(__name__)
 
@@ -116,30 +119,39 @@ def transport():
     return render_template('index.html')
 
 # Route to Restaurant Booking
-@app.route('/restaurantBooking',methods=['GET', 'POST'])
+@app.route('/restaurantBooking', methods=['GET', 'POST'])
 def restaurantBooking():
-     if 'username' not in session:
+    if 'username' not in session:
         return redirect(url_for('login'))
-     
-     if request.method == 'POST':
+
+    date_error = ""
+
+    if request.method == 'POST':
         name2 = request.form['customerName']
         date_of_booking = request.form['date']
         time_of_booking = request.form['bookingTime']
         total_people = request.form['numPeople']
         total_table = request.form['numTables']
 
+        # Step 2: Proceed with DB insertion only if validation passed
         try:
-            query= "INSERT INTO restaurant_booking (name, date_of_booking, time_of_booking,total_people ,total_table) VALUES (%s, %s, %s, %s, %s)"
-            cursor.execute(query,(name2,date_of_booking,time_of_booking,total_people,total_table))
+            query = """
+                INSERT INTO restaurant_booking 
+                (name, date_of_booking, time_of_booking, total_people, total_table) 
+                VALUES (%s, %s, %s, %s, %s)
+            """
+            cursor.execute(query, (name2, date_of_booking, time_of_booking, total_people, total_table))
             db.commit()
-        
-           
             return redirect(url_for('restaurant'))
+
         except mysql.connector.Error as err:
-            return f"Error: {err}"
-        
-     else:
-       return render_template('booking.html')
+            flash(f"Database Error: {err}")
+            return render_template('booking.html')
+
+    return render_template('booking.html')
+
+
+
 
 @app.route('/results')
 def results():
