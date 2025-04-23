@@ -13,7 +13,7 @@ try:
     db = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="root",
+        password="Samarth@2004",
         database="punyayatra",
         auth_plugin='mysql_native_password',
         port=3306
