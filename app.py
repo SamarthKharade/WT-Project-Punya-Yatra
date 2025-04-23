@@ -4,6 +4,7 @@ from logging import exception
 from flask import Flask, redirect, render_template,request, session, url_for
 import mysql.connector # type: ignore
 import json
+import bcrypt
 
 
 app = Flask(__name__)
@@ -16,7 +17,7 @@ try:
     db = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="Samarth@2004",
+        password="root",
         database="punyayatra",
         auth_plugin='mysql_native_password',
         port=3306
@@ -34,24 +35,27 @@ def home():
     username = session.get('username')  # Check if user is logged in
     return render_template('index2.html', username=username)
 # Route to login page
-@app.route('/login',methods=['GET', 'POST'])
+
+@app.route('/login',methods=['GET','POST'])
 def login():
+    error_message = None  # default to no message
+
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
 
         cursor = db.cursor()
-        query = "SELECT * FROM users WHERE username = %s AND password = %s"
-        cursor.execute(query, (username, password))
+        query = "SELECT password FROM users WHERE username = %s"
+        cursor.execute(query, (username,))
         user = cursor.fetchone()
 
-        if user:
-            session['username'] = username # Store username in session
+        if user and bcrypt.checkpw(password.encode('utf-8'), user[0].encode('utf-8')):
+            session['username'] = username
             return redirect(url_for('home'))
         else:
-            return "Invalid username or password!"
+            error_message = "Invalid username or password!"
 
-    return render_template('login.html')
+    return render_template('login.html', error_message=error_message)
 
 # Route to signup page
 @app.route('/signup', methods=['GET', 'POST'])
@@ -69,6 +73,8 @@ def signup():
     username = request.form['username']
     password = request.form['password']
 
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
     print(name,password)
 
     try:
@@ -76,12 +82,12 @@ def signup():
  
    
    
-        cursor.execute(query,(name,gender,age,countrycode,mobile,email,address,username,password))
+        cursor.execute(query,(name,gender,age,countrycode,mobile,email,address,username,hashed_password))
         db.commit()
        # return "User registered successfully!"
         return redirect(url_for('login'))
     except Exception as e:
-        return "Username already exists!"
+        return str(e)
     finally:
         cursor.close()
 
@@ -203,4 +209,3 @@ def blog(place_id):
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5000)
-

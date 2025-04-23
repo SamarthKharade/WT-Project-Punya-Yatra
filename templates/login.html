@@ -110,9 +110,12 @@
         <div style="position: relative;">
             <input type="password" id="Password" name="password" class="password" placeholder="Enter Password">
             <span class="eye-icon" id="eye-icon" onclick="togglePassword()">👁️</span>
+            {% if error_message %}
+            <p style="color: red;">{{ error_message }}</p>
+            {% endif %}
         </div>
         <div class="buttons">
-            <button type="submit">Sign In</button>
+            <button type="submit">Login</button>
             <button type="reset">Reset</button>
         </div>
         <p class="option">Don't have an account <a href="{{ url_for('signup') }}">Sign Up here</a></p>
