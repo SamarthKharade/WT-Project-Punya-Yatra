@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "name": "Sai Baba Temple",
+        "description": "",
+        "location": "shirdi, Maharashtra",
+        "image_url": "../static/images/sai-baba-temple.png"
+    },
+    {
+        "id": 2,
+        "name": "Swami Samarth Temple",
+        "description": "",
+        "location": "Akkalkot, Maharashtra",
+        "image_url": "../static/images/swami-samarth-temple.jpg"
+    },
+    {
+        "id": 3,
+        "name": "Vittal Rakumai Temple",
+        "description": "",
+        "location": "Pandharpur, Maharashtra",
+        "image_url": "../static/images/pandharpur-temple.jpg"
+    },
+    {
+        "id": 4,
+        "name": "Tulja Bhavani Temple",
+        "description": "",
+        "location": "Tuljapur, Maharashtra",
+        "image_url": "../static/images/tuljapur-temple.jpg"
+    }
+]

@@ -17,7 +17,7 @@ try:
     db = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="root",
+        password="Samarth@2004",
         database="punyayatra",
         auth_plugin='mysql_native_password',
         port=3306
@@ -193,18 +193,24 @@ def profile():
         return "User not found!"
 
 
+
 @app.route('/blog/<int:place_id>')
 def blog(place_id):
-    with open('places.json', 'r') as f:
-        places = json.load(f)
-
-    # Find the place with the matching ID
-    place = next((p for p in places if p['id'] == place_id), None)
+    try:
+        file_path = os.path.join(app.root_path, 'static', 'json', 'temples.json')
+        with open(file_path, 'r') as f:
+            places = json.load(f)
+            place = next((p for p in places if p['id'] == place_id), None)
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        return f"Error loading data: {e}", 500
 
     if not place:
-        return "Place not found!"
+        return "Place not found!", 404
 
     return render_template('blogTemp.html', place=place)
+
+
+    
 
 
 if __name__ == "__main__":
