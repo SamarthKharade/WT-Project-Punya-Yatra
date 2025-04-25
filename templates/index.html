@@ -1,279 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Punya Yatra - Book Your Journey</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        }
-
-        /* ===== Header Styling ===== */
-        .navbar {
-            background: rgba(255, 0, 0, 0.9);
-        }
-        .navbar-brand {
-            font-size: 1.8rem;
-            font-weight: bold;
-        }
-        .nav-link {
-            color: white !important;
-            margin-right: 15px;
-            font-size: 1.1rem;
-            transition: 0.3s;
-        }
-        .nav-link:hover {
-            color: #ffd700 !important;
-        }
-
-        /* ===== Hero Section ===== */
-        .hero {
-            height: 70vh;
-            background: url('https://source.unsplash.com/1600x900/?travel,airport,train') no-repeat center center/cover;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-align: center;
-            padding: 40px;
-        }
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: bold;
-        }
-        .hero p {
-            font-size: 1.2rem;
-            margin-top: 10px;
-        }
-
-        .hero {
-            width: 100%;
-            max-width: 900px;
-            margin: auto;
-            overflow: hidden;
-        }
-        #travel-image {
-            width: 100%;
-            height: auto;
-        }
-
-        /* ===== Search Box ===== */
-        .search-box {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            margin-top: -30px;
-        }
-        .search-box input,
-        .search-box select {
-            border-radius: 8px;
-        }
-
-        /* ===== Transport Icons ===== */
-        .transport-icons img {
-            width: 100px;
-            height: 100px;
-            margin: 10px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-        .transport-icons img:hover {
-            transform: scale(1.1);
-        }
-        .selected {
-            border: 3px solid #ff5733;
-            border-radius: 12px;
-        }
-
-        /* ===== Footer ===== */
-        footer {
-            background: #222;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-        }
-        .social-icons a {
-            color: white;
-            font-size: 1.4rem;
-            margin: 0 10px;
-            transition: 0.3s;
-        }
-        .social-icons a:hover {
-            color: #ffd700;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Punya Yatra - Book Your Journey</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet">
+  <script defer
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+  </script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    body { font-family:'Poppins',sans-serif;
+           background:linear-gradient(135deg,#f5f7fa 0%,#c3cfe2 100%); }
+    .navbar { background:rgba(255,0,0,0.9); }
+    .navbar-brand { font-size:1.8rem;font-weight:bold; }
+    .nav-link { color:white!important;margin-right:15px;
+                font-size:1.1rem;transition:.3s; }
+    .nav-link:hover { color:#ffd700!important; }
+    .hero { height:70vh;
+            background:url('{{ url_for("static",filename="images/hero.jpg") }}')
+                     no-repeat center/cover;
+            display:flex;align-items:center;justify-content:center;
+            text-align:center;color:white;padding:40px;  }
+    .search-box { background:white;padding:20px;
+                  border-radius:12px;
+                  box-shadow:0 4px 12px rgba(0,0,0,0.2);
+                  margin-top:-30px;}
+                  .transport-icons img {
+    width: 130px; height: 120px;
+    
+    object-fit: contain;    /* keeps the aspect ratio, with letterboxing if needed */
+    margin: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+    .transport-icons img:hover { transform:scale(1.1); }
+    .selected { border:3px solid #ff5733;border-radius:12px; }
+  </style>
 </head>
 <body>
-
-    <!-- ===== Navbar ===== -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <img src="../static/images/logo.png" alt="Logo" width="50" height="50" class="me-2" style="border-radius: 50%;" style="justify-content: left;" onclick="location.href='{{ url_for('home') }}'">
-
-            <a class="navbar-brand" href="#">Punya Yatra : Your Complete Pilgrimage Planner</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" onclick="location.href='{{ url_for('home') }}'">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Bookings</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!-- ===== Hero Section ===== -->
-    <section class="hero">
-        <div>
-            <img id="travel-image" src="../static/images/flight.jpg" alt="Travel" style="width: 1000px; height: 350px;" fit="cover">
-        </div>
-    </section>
-
-   
-
-    <!-- ===== Search Box ===== -->
-    <div class="container search-box">
-    
-        <!-- Display a selected name in h3 -->
-        <h3 id="title" class="text-center">Book a ticket </h3>
-        
-        <!-- Transport Selection -->
-        <div class="text-center transport-icons">
-            <img src="../static/images/flight.jpg" alt="Flight" id="flightIcon" onclick="selectMode('Flight')"> 
-            <img src="../static/images/train.jpg" alt="Train" id="trainIcon" onclick="selectMode('Train')">
-            <img src="../static/images/bus.jpg" alt="Bus" id="busIcon" onclick="selectMode('Bus')">
-        </div>
-
-        <!-- Search Form -->
-        <form id="searchForm">
-            <input type="hidden" id="transportType" name="transportType">
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <label class="form-label">From</label>
-                    <input type="text" class="form-control" id="from" required>
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label">To</label>
-                    <input type="text" class="form-control" id="to" required>
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label">Date</label>
-                    <input type="date" class="form-control" id="date" required>
-                    <div id="dateError" style="color: red; font-size: 0.9em; margin-top: 5px;"></div>
-                </div>
-            </div>
-            <button type="submit" id="submitButton" class="btn btn-danger w-100 mt-3">Search</button>
-        </form>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <img src="{{ url_for('static',filename='images/logo.png') }}"
+           alt="Logo" width="50" height="50"
+           class="me-2"
+           style="border-radius:50%;justify-content:left;"
+           onclick="location.href='{{ url_for('home') }}'">
+      <a class="navbar-brand" href="{{ url_for('home') }}">
+        Punya Yatra : Your Complete Pilgrimage Planner
+      </a>
+      <button class="navbar-toggler" type="button"
+              data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Bookings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+        </ul>
+      </div>
     </div>
+  </nav>
 
-    <!-- ===== Footer ===== -->
-    <footer>
-        <p>© 2025 Punya Yatra. All Rights Reserved.</p>
-        <div class="social-icons">
-            <a href="#"><i class="fab fa-facebook" style="color:blue"></i></a>
-            <a href="#"><i class="fab fa-twitter" style="color:rgb(108, 201, 230)"></i></a>
-            <a href="#"><i class="fab fa-instagram" style="color:rgb(248, 90, 111)"></i></a>
+  <section class="hero">
+    <div>
+      <img id="travel-image"
+           src="{{ url_for('static',filename='images/flight.jpg') }}"
+           alt="Travel"
+           style="width: 1000px; height: 350px;">
+    </div>
+  </section>
+
+  <div class="container search-box">
+    <h3 id="title" class="text-center">Book a ticket</h3>
+    <form id="searchForm" action="{{ url_for('search_results') }}" method="get">
+      <input type="hidden" id="transportType" name="transportType">
+      <div class="text-center transport-icons mb-3">
+        <img src="{{ url_for('static',filename='images/flight.jpg') }}"
+             alt="Flight" id="flightIcon"
+             onclick="selectMode('Flight')">
+        <img src="{{ url_for('static',filename='images/train.jpg') }}"
+             alt="Train" id="trainIcon"
+             onclick="selectMode('Train')">
+        <img src="{{ url_for('static',filename='images/bus.jpg') }}"
+             alt="Bus" id="busIcon"
+             onclick="selectMode('Bus')">
+      </div>
+
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label">From</label>
+          <input type="text" name="from" class="form-control" required>
         </div>
-    </footer>
+        <div class="col-md-4">
+          <label class="form-label">To</label>
+          <input type="text" name="to" class="form-control" required>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Date</label>
+          <input type="date" name="date" id="date"
+                 class="form-control" required>
+          <div id="dateError"
+               style="color:red;font-size:.9em;margin-top:5px"></div>
+        </div>
+      </div>
 
-    <script>
-        function selectMode(mode) {
-            document.getElementById("transportType").value = mode;
-            document.querySelectorAll('.transport-icons img').forEach(img => img.classList.remove('selected'));
-            document.getElementById(mode.toLowerCase() + 'Icon').classList.add('selected');
-            document.getElementById("title").innerText = `Book a ${mode} Ticket`;
-        }
+      <button type="submit" id="submitButton"
+              class="btn btn-danger w-100 mt-3">
+        Search
+      </button>
+    </form>
+  </div>
 
-        document.getElementById("searchForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            const transportType = document.getElementById("transportType").value;
-            const from = document.getElementById("from").value;
-            const to = document.getElementById("to").value;
-            const date = document.getElementById("date").value;
-            location.href='{{ url_for('results') }}?transportType=' + transportType + '&from=' + from + '&to=' + to + '&date=' + date;
-            
-        });
-    </script>
+  <footer class="mt-5 text-center p-3" style="background:#222;color:white;">
+    <p>© 2025 Punya Yatra. All Rights Reserved.</p>
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-facebook" style="color:blue;"></i></a>
+      <a href="#"><i class="fab fa-twitter"
+                     style="color:rgb(108,201,230)"></i></a>
+      <a href="#"><i class="fab fa-instagram"
+                     style="color:rgb(248,90,111)"></i></a>
+    </div>
+  </footer>
 
-    <script>
-       document.getElementById('searchForm').addEventListener('input', function (e) {
-         const dateInput = document.getElementById('date').value;
-         const errorDiv = document.getElementById('dateError');
-         const submitButton = document.getElementById('submitButton');  
-     
-         if (!dateInput) return;
-     
-         const selectedDate = new Date(dateInput);
-         const today = new Date();
-         today.setHours(0, 0, 0, 0); // Zero out time for accurate date-only comparison
-     
-         if (selectedDate <= today) {
-           e.preventDefault(); // Stop form submission
-           errorDiv.textContent = "Enter valid Date .";
-           submitButton.disabled = true; // Disable the button
-         } else {
-           errorDiv.textContent = ""; // Clear error
-           submitButton.disabled = false; // Enable the button
-         }
-       });
-    </script>
+  <script>
+    function selectMode(mode) {
+      document.getElementById("transportType").value = mode;
+      document.querySelectorAll('.transport-icons img')
+              .forEach(i=>i.classList.remove('selected'));
+      document.getElementById(mode.toLowerCase()+"Icon")
+              .classList.add('selected');
+      document.getElementById("title").innerText =
+        `Book a ${mode} Ticket`;
+    }
 
+    // Date validation
+    document.getElementById('date').addEventListener('input', e => {
+      const sel = new Date(e.target.value);
+      const today = new Date(); today.setHours(0,0,0,0);
+      const err = document.getElementById('dateError');
+      const btn = document.getElementById('submitButton');
+      if (sel <= today) {
+        err.textContent = "Enter valid Date.";
+        btn.disabled = true;
+      } else {
+        err.textContent = "";
+        btn.disabled = false;
+      }
+    });
 
-    <script>
-        let autoSwitchStopped = false;  // Flag for controlling auto-switch
-    
-    const temples = [
-        { img: "../static/images/flight.jpg" },
-        { img: "../static/images/train.jpg" },
-        { img: "../static/images/bus.jpg" }
+    // Auto-switch hero images
+    const imgs = [
+      "{{ url_for('static',filename='images/flight.jpg') }}",
+      "{{ url_for('static',filename='images/train.jpg') }}",
+      "{{ url_for('static',filename='images/bus.jpg') }}"
     ];
-    
-    let currentIndex = 0;
-    let autoSwitch; // Interval reference for auto-switch
-    
-    // Function to update the travel image
-    function updateTravel() {
-        const templeImage = document.getElementById("travel-image");
-    
-        if (templeImage) {
-            templeImage.src = temples[currentIndex].img; // Update image
-        
-            templeImage.style.transition = "opacity 0.5s ease-in-out"; // Add transition effect
-           //Change width and height of image
-           // templeImage.style.width = "1000px"; // Set width to 900px
-            //templeImage.style.height = "350px"; // Set height to 350px
-        
-            currentIndex = (currentIndex + 1) % temples.length; // Loop through images
-        }
-    }
-    
-    // Start auto-switch for image change every 5 seconds
-    function startAutoSwitch() {
-        autoSwitch = setInterval(updateTravel, 5000); // Set interval to auto-change every 5 seconds
-    }
-    
-    // Reset auto-switch when user manually changes (optional functionality)
-    function resetAutoSwitch() {
-        clearInterval(autoSwitch);  // Clear previous interval
-        startAutoSwitch();  // Restart the auto-switch
-    }
-    
-    // Load initial image and start auto-switching on page load
-    window.onload = () => {
-        updateTravel(); // Ensure first image is loaded
-        startAutoSwitch(); // Start the auto-switch functionality
-    }
-    </script>
+    let idx=0, timer;
+    function updateHero() {
+      const el = document.getElementById("travel-image");
+      el.style.opacity = 0;
+      setTimeout(()=>{
+        el.src = imgs[idx];
+        el.style.opacity = 1;
+        idx = (idx+1)%imgs.length;
+        //height and width auto-adjustment
 
-   
-
+       
+      }, 500);
+    }
+    window.onload = ()=>{
+      timer = setInterval(updateHero,5000);
+    };
+  </script>
 </body>
 </html>

@@ -347,5 +347,33 @@ def payment():
     return render_template('payment.html', service=service, amount=amount)
 
 
+@app.route('/search_results', methods=['GET'])
+def search_results():
+
+
+
+    source = request.args.get('from')
+    destination = request.args.get('to')
+    transport_type = request.args.get('transportType')
+
+    if not source or not destination or not transport_type:
+        return "Please provide all search parameters.", 400
+
+        
+    
+
+    cursor = db.cursor(dictionary=True)
+
+    
+    query = """
+        SELECT * FROM travel 
+        WHERE SourcePlace = %s AND DestinationPlace = %s AND TravelType = %s
+    """
+    cursor.execute(query, (source, destination, transport_type))
+    results = cursor.fetchall()
+
+    return render_template('results.html', results=results, source=source, destination=destination, transport_type=transport_type)
+
+
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5000)
