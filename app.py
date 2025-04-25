@@ -17,7 +17,7 @@ try:
     db = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="Samarth@2004",
+        password="root",
         database="punyayatra",
         auth_plugin='mysql_native_password',
         port=3306
@@ -210,7 +210,13 @@ def blog(place_id):
     return render_template('blogTemp.html', place=place)
 
 
-    
+@app.route('/payment', methods=['GET'])
+def payment():
+    service = request.args.get('service')  # gets from ?service=...
+    amount = request.args.get('amount')    # gets from ?amount=...
+
+    # Render the payment page with this info
+    return render_template('payment.html', service=service, amount=amount)
 
 
 if __name__ == "__main__":

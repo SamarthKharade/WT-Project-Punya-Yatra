@@ -92,30 +92,45 @@
   <div class="booking-form">
     <h2>Book Your Room</h2>
     <form id="bookingForm" action="#" method="POST">
-        <input type="text" name="customerName" placeholder="Customer Name" required />
-        <select name="roomType" id="roomType" required>
-            <option value="" disabled selected>select room type</option>
-            <option value="single">Single</option>
-            <option value="Double">Double</option>
-            <option value="Triple">Triple</option>
-            <option value="Quad">Quad</option>
-            <option value="Connecting Rooms">Connecting Rooms</option>
-        </select>
-        <select name="acType" id="acType">
-          <option value="" disabled selected>Select AC Type</option>
-          <option value="ac">AC</option>
-          <option value="nonac">non AC</option>
-        </select>
-        <input type="number" name="numPeople" placeholder="Number of People" min="1" required />
-        <input type="number" name="numTables" placeholder="Number of Rooms" min="1" required />
-        <label for="inTime">Reporting Time</label>
-        <input type="date" name="date" placeholder="Select Date" required>
-        <input type="time" name="bookingTime" placeholder="Select Time" required />
+      <input type="text" name="customerName" placeholder="Customer Name" required />
+    
+      <select name="roomType" id="roomType" required>
+        <option value="" disabled selected>Select Room Type</option>
+        <option value="single">Single</option>
+        <option value="double">Double</option>
+        <option value="triple">Triple</option>
+        <option value="quad">Quad</option>
+        <option value="connecting">Connecting Rooms</option>
+      </select>
+    
+      <select name="acType" id="acType" required>
+        <option value="" disabled selected>Select AC Type</option>
+        <option value="ac">AC</option>
+        <option value="nonac">Non AC</option>
+      </select>
+    
+      <input type="number" name="numRooms" id="numRooms" placeholder="Number of Rooms" min="1" required />
+      <input type="number" name="numPeople" id="numPeople" placeholder="Number of People" min="1" required />
+      <p id="peopleWarning" style="color: red; display: none;"></p>
 
-        <label for="exitTime">Exit Time</label>
-        <input type="date" name="date" placeholder="Select Date" required>
-        <input type="time" name="bookingTime" placeholder="Select Time" required />
-        <button type="submit">Submit</button>
+      <label for="inTime">Reporting Time</label>
+      <input type="date" id="checkinDate" name="startDate" required />
+      <input type="time" id="checkinTime" name="startTime" required />
+      <div id="dateError" style="color: red; font-size: 0.9em; margin-top: 5px;"></div>
+
+      <!-- Check-out -->
+      <label for="exitTime">Exit Time</label>
+      <input type="date" id="checkoutDate" name="endDate" required />
+      <input type="time" id="checkoutTime" name="endTime" required />
+      <div id="dateError2" style="color: red; font-size: 0.9em; margin-top: 5px;"></div>
+
+    
+      <p><strong>Total Amount to Pay: ₹<span id="totalAmount">0</span></strong></p>
+      <input type="hidden" name="service" value="Hotel Booking">
+      <input type="hidden" name="totalPrice" id="hiddenTotal" value="0">
+      <button type="reset">Reset</button>
+      <button type="submit">Pay ₹<span id="payNow">0</span></button>
+      
     </form>
   </div>
 
@@ -134,10 +149,124 @@
   <script>
     const form = document.getElementById('bookingForm');
     form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      // Here you can add your booking logic, e.g., send form data to a server
-      alert('Booking submitted successfully!');
+      e.preventDefault(); // Prevent default form submission
+    
+      const service = form.querySelector('input[name="service"]').value;
+      const amount = form.querySelector('input[name="totalPrice"]').value;
+    
+      // Redirect to Flask payment route
+      window.location.href = `/payment?service=${encodeURIComponent(service)}&amount=${encodeURIComponent(amount)}`;
     });
   </script>
+  <script>
+    const roomPrices = {
+      single: { ac: 1200, nonac: 1000 },
+      double: { ac: 2000, nonac: 1800 },
+      triple: { ac: 2700, nonac: 2500 },
+      quad: { ac: 3200, nonac: 2900 },
+      connecting: { ac: 4000, nonac: 3700 }
+    };
+    
+    const roomType = document.getElementById("roomType");
+    const acType = document.getElementById("acType");
+    const numRooms = document.getElementById("numRooms");
+    const peoples = document.getElementById('numPeople');
+    const checkinDate = document.getElementById("checkinDate");
+    const checkinTime = document.getElementById("checkinTime");
+    const checkoutDate = document.getElementById("checkoutDate");
+    const checkoutTime = document.getElementById("checkoutTime");
+    const totalAmountSpan = document.getElementById("totalAmount");
+    const payNow = document.getElementById("payNow");
+    const hiddenTotal = document.getElementById("hiddenTotal");
+    
+    function calculateNights() {
+      const checkIn = new Date(`${checkinDate.value}T${checkinTime.value}`);
+      const checkOut = new Date(`${checkoutDate.value}T${checkoutTime.value}`);
+      const warningE3 = document.getElementById('dateError');
+      const warningE2 = document.getElementById('dateError2');
+      const today = new Date();
+    
+      if (checkIn < today) {
+        warningE3.textContent = `Enter valid Date Time`;
+        warningE3.style.display = "block";
+      } else {
+        warningE3.textContent = '';
+        warningE3.style.display = 'none';
+      }
+    
+      if (checkIn > checkOut) {
+        warningE2.textContent = `Enter valid Date Time`;
+        warningE2.style.display = "block";
+      } else {
+        warningE2.textContent = '';
+        warningE2.style.display = 'none';
+      }
+    
+      if (checkIn && checkOut && checkOut > checkIn) {
+        const diffTime = Math.abs(checkOut - checkIn);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays;
+      }
+      return 1;
+    }
+    
+    function getMaxPeoplePerRoom(roomType) {
+      switch (roomType.toLowerCase()) {
+        case 'single': return 1;
+        case 'double': return 2;
+        case 'triple': return 3;
+        case 'quad': return 4;
+        case 'connecting rooms': return 6;
+        default: return 0;
+      }
+    }
+    
+    document.getElementById("numPeople").addEventListener("input", function () {
+      const maxPerRoom = getMaxPeoplePerRoom(roomType.value);
+      const rooms = parseInt(numRooms.value);
+      const peopleCount = parseInt(peoples.value);
+      const warningEl = document.getElementById('peopleWarning');
+    
+      const maxAllowed = maxPerRoom * rooms;
+    
+      if (peopleCount > maxAllowed) {
+        warningEl.textContent = `Only ${maxPerRoom} people allowed per room. You selected ${rooms} room(s), so maximum ${maxAllowed} people are allowed.`;
+        warningEl.style.display = "block";
+      } else {
+        warningEl.textContent = '';
+        warningEl.style.display = "none";
+      }
+    });
+    
+    function updateAmount() {
+      const type = roomType.value;
+      const ac = acType.value;
+      const rooms = parseInt(numRooms.value);
+      const nights = calculateNights();
+    
+      if (type && ac && rooms && rooms > 0 && nights > 0) {
+        const pricePerRoom = roomPrices[type][ac];
+        const total = pricePerRoom * rooms * nights;
+    
+        totalAmountSpan.textContent = total;
+        payNow.textContent = total;
+        hiddenTotal.value = total;
+      } else {
+        totalAmountSpan.textContent = "0";
+        payNow.textContent = "0";
+        hiddenTotal.value = "0";
+      }
+    }
+    
+    roomType.addEventListener("change", updateAmount);
+    acType.addEventListener("change", updateAmount);
+    numRooms.addEventListener("input", updateAmount);
+    checkinDate.addEventListener("change", updateAmount);
+    checkinTime.addEventListener("change", updateAmount);
+    checkoutDate.addEventListener("change", updateAmount);
+    checkoutTime.addEventListener("change", updateAmount);
+    
+  </script>
+  
 </body>
 </html>

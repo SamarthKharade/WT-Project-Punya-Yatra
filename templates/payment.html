@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Punya Yatra - Payment</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f2ee;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 500px;
+      background: white;
+      margin: 40px auto;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #5c3d2e;
+    }
+    .summary {
+      background: #f9eade;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    .summary p {
+      margin: 8px 0;
+      color: #333;
+    }
+    .payment-options {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    .option {
+      flex: 1;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.3s;
+    }
+    .option img {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 5px;
+    }
+    .option.selected {
+      border-color: #8a4b2d;
+      background-color: #fceee5;
+    }
+    .pay-form {
+      margin-top: 20px;
+      display: none;
+    }
+    .pay-form input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .pay-button {
+      background-color: #8a4b2d;
+      color: white;
+      border: none;
+      padding: 12px;
+      margin-top: 10px;
+      width: 100%;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .pay-button:hover {
+      background-color: #6e3c22;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Punya Yatra Payment</h2>
+
+    <!-- Order Summary Section -->
+    <div class="summary">
+      <p><strong>Booking Type:</strong> {{ service }}</p>
+      <p><strong>Amount:</strong> ₹{{ amount }}</p>
+      <!-- Optional: you can fetch this dynamically later -->
+    </div>
+
+    <!-- Payment Options -->
+    <label><strong>Select Payment Method:</strong></label>
+    <div class="payment-options">
+      <div class="option" id="cardOption">
+        <img src="https://cdn-icons-png.flaticon.com/512/633/633611.png" alt="Card">
+        <div>Card</div>
+      </div>
+      <div class="option" id="upiOption">
+        <img src="https://cdn-icons-png.flaticon.com/512/1348/1348371.png" alt="UPI">
+        <div>UPI</div>
+      </div>
+      <div class="option" id="netOption">
+        <img src="https://cdn-icons-png.flaticon.com/512/483/483947.png" alt="Net Banking">
+        <div>Netbanking</div>
+      </div>
+    </div>
+
+    <!-- Payment Forms -->
+    <div class="pay-form" id="cardForm">
+      <input type="text" placeholder="Cardholder Name" required>
+      <input type="text" placeholder="Card Number" maxlength="16" required>
+      <input type="text" placeholder="Expiry (MM/YY)" required>
+      <input type="text" placeholder="CVV" maxlength="3" required>
+      <button class="pay-button">Pay ₹{{amount}}</button>
+    </div>
+
+    <div class="pay-form" id="upiForm">
+      <input type="text" placeholder="Enter UPI ID (e.g. user@upi)" required>
+      <button class="pay-button">Pay ₹{{amount}}</button>
+    </div>
+
+    <div class="pay-form" id="netForm">
+      <select>
+        <option>Select Your Bank</option>
+        <option>SBI</option>
+        <option>HDFC</option>
+        <option>ICICI</option>
+        <option>PNB</option>
+      </select>
+      <button class="pay-button">Pay ₹{{amount}}</button>
+    </div>
+  </div>
+
+  <script>
+    const options = document.querySelectorAll('.option');
+    const cardForm = document.getElementById('cardForm');
+    const upiForm = document.getElementById('upiForm');
+    const netForm = document.getElementById('netForm');
+
+    options.forEach(option => {
+      option.addEventListener('click', () => {
+        options.forEach(o => o.classList.remove('selected'));
+        option.classList.add('selected');
+
+        // Hide all forms
+        cardForm.style.display = 'none';
+        upiForm.style.display = 'none';
+        netForm.style.display = 'none';
+
+        // Show selected form
+        if (option.id === 'cardOption') cardForm.style.display = 'block';
+        if (option.id === 'upiOption') upiForm.style.display = 'block';
+        if (option.id === 'netOption') netForm.style.display = 'block';
+      });
+    });
+  </script>
+</body>
+</html>
