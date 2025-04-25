@@ -89,6 +89,9 @@
     <h2>Book Your Table</h2>
     <form id="bookingForm" action="/restaurantBooking" method="post">
       <input type="text" name="customerName" placeholder="Customer Name" required />
+      <input type="text" name="restaurantName" value="{{ name }}" placeholder="Restaurant Name" required />
+      <input type="text" name="location" value="{{ location }}" placeholder="Location" required />
+      <input type="email" name="emailID" placeholder="Email ID" required />
   
       <input type="date" id="date" name="date" placeholder="Select Date" required />
       <input type="time" id="bookingTime" name="bookingTime" placeholder="Select Time" required />
@@ -146,6 +149,23 @@
   // Don’t call e.preventDefault(); let the form go to Flask route
 });
 
+  </script>
+  <script>
+    window.onload = function () {
+      const params = new URLSearchParams(window.location.search);
+      const name = params.get('name');
+      
+      if (name) {
+        // Set value in the textbox using document.forms
+        document.forms["bookingForm"]["restaurantName"].value = name;
+      }
+  
+      const location = params.get('location');
+      if (location) {
+        // Set value in the textbox using document.forms
+        document.forms["bookingForm"]["location"].value = location;
+      }
+    };
   </script>
 </body>
 </html>

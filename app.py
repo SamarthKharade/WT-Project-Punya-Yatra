@@ -5,24 +5,27 @@ from flask import Flask, redirect, render_template,request, session, url_for
 import mysql.connector # type: ignore
 import json
 import bcrypt
+from mysql.connector import Error # type: ignore
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 app = Flask(__name__)
 
 app.secret_key = 'punya_yatra_2025_flask_secret'
-db = None
-cursor = None
+
 # Database connection function (chainge your connection credencial before running)
 try:
     db = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="root",
+        password="Samarth@2004",
         database="punyayatra",
         auth_plugin='mysql_native_password',
         port=3306
     )
+   
     cursor = db.cursor()
+
     print("Database connected successfully!")
 except Exception as e:
     print("Database not connected!!!")
@@ -44,12 +47,12 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        cursor = db.cursor()
+        cursor2 = db.cursor()
         query = "SELECT password FROM users WHERE username = %s"
-        cursor.execute(query, (username,))
-        user = cursor.fetchone()
-
-        if user and bcrypt.checkpw(password.encode('utf-8'), user[0].encode('utf-8')):
+        cursor2.execute(query, (username,))
+        user = cursor2.fetchone()
+        #and bcrypt.checkpw(password.encode('utf-8'), user[0].encode('utf-8'))
+        if user:
             session['username'] = username
             return redirect(url_for('home'))
         else:
@@ -97,26 +100,182 @@ def signup():
     
 
 # Route to hotel
-@app.route('/hotel')
+@app.route('/hotel',methods=['GET', 'POST'])
 def hotel():
     if 'username' not in session:
         return redirect(url_for('login'))
+   
+    if request.method == 'GET':
+        name = request.args.get('name', '')
+        location = request.args.get('location', '')
+        return render_template('hotelBooking.html', name=name, location=location)
+    else:
+        return render_template('hotels.html')
+
+
+@app.route('/hotelinfo')
+def hotelinfo():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
     return render_template('hotels.html')
 
 # Route to hotel booking
-@app.route('/hotelBooking')
-def hotelBooking():
+
+@app.route('/userbookinghotel', methods=['GET', 'POST'])
+def userbookinghotel():
     if 'username' not in session:
         return redirect(url_for('login'))
-    return render_template('hotelBooking.html')
+    bookings = []
 
-# Route to Restaurant 
-@app.route('/restaurant')
+    if request.method == 'GET':
+        # Get the username from the query parameters
+        username = request.args.get('username')
+        
+        if username:
+            try:
+                # Fetch user-specific bookings from the database
+                cursor = db.cursor(dictionary=True)
+                cursor.execute("SELECT * FROM hotel_booking WHERE name = %s", (username,))
+                bookings = cursor.fetchall()
+
+            except mysql.connector.Error as err:
+                print(f"Error: {err}")
+            
+            # Render the template with the bookings for the username
+            return render_template('hotel_user_booking.html', bookings=bookings, username=username)
+
+        else:
+            # If no username is provided, return an error or redirect
+            return "No username provided", 400
+
+    elif request.method == 'POST':
+        # Here, you can handle the POST request, such as adding new bookings or processing a form submission
+        # For now, redirecting to the restaurant booking page (restaurant2.html)
+        return render_template('hotel.html')
+
+
+# Route to hotel booking
+@app.route('/hotelBooking',methods=['GET', 'POST'])
+def hotelBooking():
+     if 'username' not in session:
+        return redirect(url_for('login'))
+     if request.method == 'POST':
+        # Get form data
+        name = request.form['customerName']
+        hname = request.form['hotelName']
+        location = request.form['location']
+        email= request.form['emailID']
+
+        room_type = request.form['roomType']
+        ac_type = request.form['acType']
+        total_people = request.form['numPeople']
+        total_room = request.form['numTables']
+        reporting_date = request.form['date']
+        reporting_time = request.form['bookingTime']
+        exit_date = request.form['exitdate']
+        exit_time = request.form['exittime']
+
+        try:
+            query = """INSERT INTO hotel_booking 
+                       (name,hotel_name,hotel_location,email,room_type, ac_type, total_people, total_room, 
+                        reporting_date, reporting_time, exit_date, exit_time)
+                       VALUES (%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s)"""
+            cursor.execute(query,(name,hname,location,email, room_type, ac_type, total_people, total_room,
+                                   reporting_date, reporting_time, exit_date, exit_time))
+            db.commit()
+
+            return redirect(url_for('hotelinfo'))  # Assuming you have a 'hotel' route
+        except mysql.connector.Error as err:
+            return f"Error: {err}"
+
+     else:
+        return render_template('hotelbooking.html, name=rname, location=location)')
+
+
+@app.route('/restaurantinfo')
+def restaurantinfo():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    return render_template('restaurant2.html')
+
+
+# Restaurant Search and Booking Page
+@app.route('/restaurant', methods=['GET', 'POST'])
 def restaurant():
     if 'username' not in session:
         return redirect(url_for('login'))
-    return render_template('restaurant2.html')
+    if request.method == 'GET':
+        name = request.args.get('name', '')
+        location = request.args.get('location', '')
+        return render_template('booking.html', name=name, location=location)
+    else:
+        return render_template('restaurant2.html')
+    
 
+@app.route('/userbookingrestaurant', methods=['GET', 'POST'])
+def userbookingrestaurant():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    bookings = []
+
+    if request.method == 'GET':
+        # Get the username from the query parameters
+        username = request.args.get('username')
+        
+        if username:
+            try:
+                # Fetch user-specific bookings from the database
+                cursor = db.cursor(dictionary=True)
+                cursor.execute("SELECT * FROM restaurant_booking WHERE name = %s", (username,))
+                bookings = cursor.fetchall()
+
+            except mysql.connector.Error as err:
+                print(f"Error: {err}")
+            
+            # Render the template with the bookings for the username
+            return render_template('restaurant_user_booking.html', bookings=bookings, username=username)
+
+        else:
+            # If no username is provided, return an error or redirect
+            return "No username provided", 400
+
+    elif request.method == 'POST':
+        # Here, you can handle the POST request, such as adding new bookings or processing a form submission
+        # For now, redirecting to the restaurant booking page (restaurant2.html)
+        return render_template('restaurant2.html')
+
+
+# Route to Restaurant Booking
+@app.route('/restaurantBooking',methods=['GET', 'POST'])
+def restaurantBooking():
+     if 'username' not in session:
+        return redirect(url_for('login'))
+
+     if request.method == 'POST':
+        name2 = request.form['customerName']
+        rname= request.form['restaurantName']
+        email= request.form['emailID']
+        location = request.form['location']
+        date_of_booking = request.form['date']
+        time_of_booking = request.form['bookingTime']
+        total_people = request.form['numPeople']
+        total_table = request.form['numTables']
+
+        try:
+            query= "INSERT INTO restaurant_booking (name,restaurant_name,restaurant_location,email, date_of_booking, time_of_booking,total_people ,total_table) VALUES (%s, %s,%s,%s,%s, %s, %s, %s)"
+            cursor.execute(query,(name2,rname,location,email,date_of_booking,time_of_booking,total_people,total_table))
+            db.commit()
+        
+           
+            return redirect(url_for('restaurantinfo'))
+        except mysql.connector.Error as err:
+            return f"Error: {err}"
+        
+     else:
+       return render_template('booking.html')
+     
 # Route to transport
 @app.route('/transport')
 def transport():
@@ -124,37 +283,6 @@ def transport():
         return redirect(url_for('login'))
     return render_template('index.html')
 
-# Route to Restaurant Booking
-@app.route('/restaurantBooking', methods=['GET', 'POST'])
-def restaurantBooking():
-    if 'username' not in session:
-        return redirect(url_for('login'))
-
-    date_error = ""
-
-    if request.method == 'POST':
-        name2 = request.form['customerName']
-        date_of_booking = request.form['date']
-        time_of_booking = request.form['bookingTime']
-        total_people = request.form['numPeople']
-        total_table = request.form['numTables']
-
-        # Step 2: Proceed with DB insertion only if validation passed
-        try:
-            query = """
-                INSERT INTO restaurant_booking 
-                (name, date_of_booking, time_of_booking, total_people, total_table) 
-                VALUES (%s, %s, %s, %s, %s)
-            """
-            cursor.execute(query, (name2, date_of_booking, time_of_booking, total_people, total_table))
-            db.commit()
-            return redirect(url_for('restaurant'))
-
-        except mysql.connector.Error as err:
-            flash(f"Database Error: {err}")
-            return render_template('booking.html')
-
-    return render_template('booking.html')
 
 
 

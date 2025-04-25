@@ -120,6 +120,7 @@
       <img src="../static/images/logo2.png" alt="logo" class="web-logo">
     </div>
     <h1 style="width: 90vw;">Book Restaurant</h1>
+    <a href="#" onclick="showBookingPrompt()"><h6 style="color:rgb(255, 166, 0)">Show My Bookings</h6></a>
   </header>
   <section class="search-bar">
     <input type="text" id="searchInput" placeholder="Search Restaurants by Temple Location..." />
@@ -204,7 +205,7 @@
     });
   </script>
 
-<script>
+<!--<script>
   // Book Now button redirection
   document.querySelectorAll('.book-btn').forEach(button => {
     button.addEventListener('click', () => {
@@ -227,7 +228,49 @@
       }
     });
   }
+</script>-->
+<script>
+  function showBookingPrompt() {
+      const username = prompt("Enter your name to view your bookings:");
+      if (username) {
+        // Redirect with query parameter
+        window.location.href = `/userbookingrestaurant?username=${encodeURIComponent(username)}`;
+      }
+    }
+  </script>
+<script>
+   document.querySelectorAll('.book-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const card = button.closest('.restaurant-card');
+      const name = card.getAttribute('data-name');
+      const location = card.getAttribute('data-location');
+
+      // Construct the URL and redirect
+      const url = `/restaurant?name=${encodeURIComponent(name)}&location=${encodeURIComponent(location)}`;
+      window.location.href = url;
+    });
+  });
+
+  // Filter restaurants by name or temple location
+  function filterRestaurants() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const cards = document.querySelectorAll('.restaurant-card');
+
+    cards.forEach(card => {
+      const name = card.dataset.name.toLowerCase();
+      const location = card.dataset.location.toLowerCase();
+      if (name.includes(input) || location.includes(input)) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  // Optional: Real-time filtering as user types
+  document.getElementById('searchInput').addEventListener("keyup", filterRestaurants);
 </script>
+  
 
 </body>
 </html>

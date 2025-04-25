@@ -126,13 +126,14 @@
       <img src="../static/images/logo2.png" alt="logo" class="web-logo">
     </div>
     <h1 style="width: 90vw;">Book Hotels</h1>
+    <a href="#" onclick="showBookingPrompt()"><h6 style="color:rgb(255, 0, 0)">Show My Bookings</h6></a>
   </header>
   <section class="search-bar">
     <input type="text" id="cityInput" name="cityInput" placeholder="Search Hotels by Temple Location..." />
     <button name="search" onclick="filterHotels()">Search</button>
   </section>
   <section class="restaurant-list">
-    <div class="restaurant-card hotel" data-city="Tuljapur">
+    <div class="restaurant-card hotel" data-name="Hotel Darshan Executive" data-city="Tuljapur">
       <img src="../static/images/TJ02.webp" alt="Hotel Image" />
       <div class="info">
         <h2>Hotel Darshan Executive</h2>
@@ -141,7 +142,7 @@
         <button class="book-btn">Book Now</button>
       </div>
     </div>
-    <div class="restaurant-card hotel" data-city="Tuljapur">
+    <div class="restaurant-card hotel" data-name="Palange Lodging And Services" data-city="Tuljapur">
       <img src="../static/images/TJ01.jpg" alt="Hotel Image" />
       <div class="info">
         <h2>Palange Lodging And Services</h2>
@@ -150,7 +151,7 @@
         <button class="book-btn">Book Now</button>
       </div>
     </div>
-    <div class="restaurant-card hotel" data-city="Akkalkot">
+    <div class="restaurant-card hotel" data-name="Masuti Homestay(AC & Non AC)" data-city="Akkalkot">
       <img src="../static/images/SS01.jpg" alt="Hotel Image" />
       <div class="info">
         <h2>Masuti Homestay(AC & Non AC)</h2>
@@ -159,7 +160,7 @@
         <button class="book-btn">Book Now</button>
       </div>
     </div>
-    <div class="restaurant-card hotel" data-city="Akkalkot">
+    <div class="restaurant-card hotel" data-name="Hotel Ajinkyatara" data-city="Akkalkot">
       <img src="../static/images/SS02.JPG" alt="Hotel Image" />
       <div class="info">
         <h2>Hotel Ajinkyatara</h2>
@@ -168,7 +169,7 @@
         <button class="book-btn">Book Now</button>
       </div>
     </div>
-    <div class="restaurant-card hotel" data-city="Pandharpur">
+    <div class="restaurant-card hotel" data-name="ISKCON Chandrabhaga guest house" data-city="Pandharpur">
       <img src="../static/images/VR01.jpg" alt="Hotel Image" />
       <div class="info">
         <h2>ISKCON Chandrabhaga guest house</h2>
@@ -177,7 +178,7 @@
         <button class="book-btn">Book Now</button>
       </div>
     </div>
-    <div class="restaurant-card hotel" data-city="Pandharpur">
+    <div class="restaurant-card hotel" data-name="Hotel Marigold Regency" data-city="Pandharpur">
       <img src="../static/images/VR02.webp" alt="Hotel Image" />
       <div class="info">
         <h2>Hotel Marigold Regency</h2>
@@ -200,7 +201,7 @@
     </p>
 </footer>
   
-  <script>
+ <!-- <script>
     document.querySelectorAll('.book-btn').forEach(button => {
       button.addEventListener('click', () => {
         location.href='{{ url_for('hotelBooking') }}';
@@ -225,6 +226,54 @@
           }
       });
   }
+</script>-->
+
+<script>
+  function showBookingPrompt() {
+      const username = prompt("Enter your name to view your bookings:");
+      if (username) {
+        // Redirect with query parameter
+        window.location.href = `/userbookinghotel?username=${encodeURIComponent(username)}`;
+      }
+    }
+
+  </script>
+<script>
+  document.querySelectorAll('.book-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const card = button.closest('.restaurant-card');
+      const name = card.getAttribute('data-name');
+      const location = card.getAttribute('data-city');
+
+      // Construct the URL and redirect
+      const url = `/hotel?name=${encodeURIComponent(name)}&location=${encodeURIComponent(location)}`;
+      window.location.href = url;
+    });
+  });
+
+
+  function filterHotels() {
+  const input = document.getElementById('cityInput').value.toLowerCase();
+  const hotelCards = document.querySelectorAll('.restaurant-card.hotel');
+
+  hotelCards.forEach(card => {
+    const city = (card.dataset.city || '').toLowerCase();
+    const name = (card.dataset.name || '').toLowerCase();
+    if (city.includes(input) || name.includes(input)) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+
+   
+  
+
+
+
+    document.getElementById('cityInput').addEventListener("keyup", filterHotels);
 </script>
 </body>
 </html>

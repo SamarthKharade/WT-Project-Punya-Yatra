@@ -93,7 +93,10 @@
     <h2>Book Your Room</h2>
     <form id="bookingForm" action="#" method="POST">
       <input type="text" name="customerName" placeholder="Customer Name" required />
-    
+      <input type="text" name="hotelName" value="{{ name }}" placeholder="Hotel Name" required />
+      <input type="text" name="location" value="{{ location }}" placeholder="Location" required />
+
+      <input type="email" name="emailID" placeholder="Email ID" required />
       <select name="roomType" id="roomType" required>
         <option value="" disabled selected>Select Room Type</option>
         <option value="single">Single</option>
@@ -266,6 +269,23 @@
     checkoutDate.addEventListener("change", updateAmount);
     checkoutTime.addEventListener("change", updateAmount);
     
+  </script>
+  
+  <script>
+    window.onload = function () {
+      const params = new URLSearchParams(window.location.search);
+      const name = params.get('name');
+      if (name) {
+        // Set value in the textbox using document.forms
+        document.forms["bookingForm"]["hotelName"].value = name;
+      }
+
+      const location = params.get('location');
+      if (location) {
+        // Set value in the textbox using document.forms
+        document.forms["bookingForm"]["location"].value = location;
+      }
+    };
   </script>
   
 </body>
