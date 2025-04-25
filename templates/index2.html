@@ -127,6 +127,7 @@
             <img src="static/images/userlogo.png" alt="User Logo" style="width: 50px; height: 50px;" onclick="toggleDropdown()">
             <div id="dropdown" style="display: none; position: absolute; right: 0; background: #fff; border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.15);">
                 <a href="{{ url_for('profile') }}" style="display: block; padding: 10px; text-decoration: none; color: black;">Profile</a>
+                <a href="{{ url_for('darshan') }}" style="display: block; padding: 10px; text-decoration: none; color: black;">Darshan Pass</a>
                 <a href="{{ url_for('logout') }}" style="display: block; padding: 10px; text-decoration: none; color: black;">Logout</a>
             </div>
             <p>Welcome, {{ username }}!</p>

@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Search Results</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Select Result</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+   
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .result-card {
@@ -23,6 +28,13 @@
     </style>
 </head>
 <body class="container mt-5">
+    <header class="text-center mb-4">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="web-logo" width="70" height="70" style="border-radius:50%;">
+        
+        <h2>Punya Yatra</h2>
+        <p>Your Complete Pilgrimage Planner</p>
+    </header>
+
 
     <h2 class="text-center">{{transport_type}} Results from {{ source }} to {{ destination }}</h2>
     <p class="text-center">Mode: {{ transport_type }}</p>
@@ -43,6 +55,8 @@
     {% else %}
         <p class="text-center text-danger mt-4">No {{transport_type}} results found for the selected route.</p>
     {% endif %}
+
+    
 
 </body>
 </html>

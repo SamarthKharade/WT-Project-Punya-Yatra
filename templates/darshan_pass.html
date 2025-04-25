@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Darshan Pass Form</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header, footer {
+      background-color: #f7f3eb;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    footer p {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+    }
+
+    .form-container {
+      background-color: white;
+      padding: 30px 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    input[readonly] {
+      background-color: #f0f0f0;
+    }
+
+    button {
+      width: 100%;
+      background-color: #007bff;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo" onclick="location.href='{{ url_for('home') }}'">
+        <img src="../static/images/logo2.png" alt="logo" class="web-logo" style="width:80px; height: px;">
+      </div>
+    <h1 style="color:rgb(252, 23, 23)">Punya Yatra : Your Complete Pilgrimage Planner</h1>
+  </header>
+
+  <main>
+    <div class="form-container">
+      <h2>Darshan Pass Form</h2>
+      <form id="darshanForm" action="{{ url_for('darshanbooking') }}" method="post">
+        <label for="temple">Select Temple</label>
+        <select id="temple" name="temple" required>
+          <option value="">--Choose Temple--</option>
+          <option value="Swami Samarth Temple, Akkalkot">Swami Samarth Temple, Akkalkot</option>
+          <option value="Sai Baba Temple, Shirdi">Sai Baba Temple, Shirdi</option>
+          <option value="Vittal-Rakumai Temple, Pandharpur">Vittal-Rakumai Temple, Pandharpur</option>
+          <option value="Aai Tulaja Bhavani Temple, Tuljapur">Aai Tulaja Bhavani Temple, Tuljapur</option>
+        </select>
+
+        <label for="name">Name of person</label>
+        <input type="text" id="name" name="name" required placeholder="Enter your name">
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required placeholder="Enter your email">
+
+        <label for="people">Number of People</label>
+        <input type="number" id="people" name="people" min="1" required>
+
+        <label for="price">Pass Price (per person)</label>
+        <input type="text" id="price" name="price" readonly>
+
+        <label for="totalFare">Total Fare</label>
+        <input type="text" id="totalFare" name="totalFare" readonly>
+
+        <label for="date">Select Darshan Date</label>
+        <input type="date" id="date" name="date" required>
+
+        <button type="submit">Get Darshan Pass</button>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    <p style="color:black">&copy; 2025 Punya Yatra | All Rights Reserved</p>
+  </footer>
+
+  <script>
+    const templeSelect = document.getElementById('temple');
+    const peopleInput = document.getElementById('people');
+    const priceInput = document.getElementById('price');
+    const totalFareInput = document.getElementById('totalFare');
+
+    const templePrices = {
+  "Swami Samarth Temple, Akkalkot": 200,
+  "Sai Baba Temple, Shirdi": 500,
+  "Vittal-Rakumai Temple, Pandharpur": 300,
+  "Aai Tulaja Bhavani Temple, Tuljapur": 400
+};
+
+    function updateFare() {
+      const temple = templeSelect.value;
+      const people = parseInt(peopleInput.value);
+
+      if (temple && people > 0) {
+        const price = templePrices[temple];
+        priceInput.value = ` ${price}`;
+        totalFareInput.value = `${price * people}`;
+      } else {
+        priceInput.value = '';
+        totalFareInput.value = '';
+      }
+    }
+
+    templeSelect.addEventListener('change', updateFare);
+    peopleInput.addEventListener('input', updateFare);
+
+    document.getElementById('darshanForm').addEventListener('submit', function (e) {
+    
+      alert("Darshan Pass Submitted Successfully!");
+    });
+  </script>
+
+</body>
+</html>

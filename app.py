@@ -7,11 +7,22 @@ import json
 import bcrypt
 from mysql.connector import Error # type: ignore
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_mail import Mail, Message
 
 
 app = Flask(__name__)
 
 app.secret_key = 'punya_yatra_2025_flask_secret'
+
+# Configure Flask-Mail directly in code
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'kharadesamarth64@gmail.com'         
+app.config['MAIL_PASSWORD'] = 'vecx mitg irjn isps'               
+app.config['MAIL_DEFAULT_SENDER'] = 'kharadesamarth64@gmail.com'      
+
+mail = Mail(app)
 
 # Database connection function (chainge your connection credencial before running)
 try:
@@ -87,6 +98,40 @@ def signup():
    
         cursor.execute(query,(name,gender,age,countrycode,mobile,email,address,username,hashed_password))
         db.commit()
+        user_email = email
+        
+     
+            
+
+    # Email content
+        subject = f"Welcome to Punya Yatra!"
+        body = f"""Dear {name},
+
+Thank you for registering with Punya Yatra - Your Complete Pilgrimage Planner...
+
+We are delighted to help you to plan your spiritual journey...
+
+1. Book Darshan Passes for temples across Maharashtra  
+2.Reserve comfortable Hotels near your pilgrimage site  
+3.Find and book nearby Restaurants offering authentic cuisine  
+4.Plan and manage your Travel with reliable transport services
+
+
+Punya Yatra is here to take care of every detail, so you can focus solely on your devotion.
+
+Let your pilgrimage be as divine as your faith...
+
+Jai Jai Ram Krishna Hari !
+
+
+Warm regards,  
+Team Punya Yatra
+
+"""
+
+    # Send email
+        msg = Message(subject=subject, recipients=[user_email], body=body)
+        mail.send(msg)
        # return "User registered successfully!"
         return redirect(url_for('login'))
     except Exception as e:
@@ -373,6 +418,90 @@ def search_results():
     results = cursor.fetchall()
 
     return render_template('results.html', results=results, source=source, destination=destination, transport_type=transport_type)
+
+@app.route('/darshan', methods=['GET'])
+def darshan():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    return render_template('darshan_pass.html')
+
+@app.route('/darshanbooking', methods=['GET', 'POST'])
+def darshanbooking():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    if request.method == 'POST':
+        temple = request.form['temple']
+        name= request.form['name']
+       
+        email= request.form['email']
+        people= request.form['people']
+        price= request.form['totalFare']
+        date= request.form['date']
+
+
+     
+
+        try:
+            query= "INSERT INTO darshanpassinfo (Temple_Name,Person_name,Email,People,Amount,PassDate) VALUES (%s,%s,%s,%s,%s,%s)"
+            cursor.execute(query,(temple,name,email,people,price,date))
+            db.commit()
+
+              # Simulate booking task
+            user_email = email
+            temple_name = temple 
+            visit_date = date
+            
+
+    # Email content
+            subject = f"Darshan Pass Confirmation - {temple_name}"
+            body = f"""Dear {name},
+
+Your Darshan Pass booking for {temple_name} on {visit_date} has been successfully confirmed...
+
+Date of Visit : {visit_date}
+Number of People : {people}
+Total Amount : {price} INR
+
+Please carry this email on the day of your visit...
+
+Thank you for using Punya Yatra !
+Wishing you a peaceful and blessed darshan...
+
+Regards,  
+Punya Yatra Team
+"""
+
+    # Send email
+            msg = Message(subject=subject, recipients=[user_email], body=body)
+            mail.send(msg)
+            return redirect(url_for('home'))
+        
+        except mysql.connector.Error as err:
+            return f"Error: {err}"
+        
+
+@app.route('/send_email', methods=['POST'])
+def send_email():
+    # Simulate booking task
+    user_email = 'kharadesamarth2004@gmail.com' 
+    temple_name = "Swami Samarth Temple"  
+    visit_date = "2025-05-01"
+
+    # Email content
+    subject = f"Temple Booking Confirmation - {temple_name}"
+    body = f"""Dear Devotee,
+
+Your booking for {temple_name} on {visit_date} is confirmed.
+
+Thank you for using Punya Yatra!
+Swami Om !!! 
+"""
+
+    # Send email
+    msg = Message(subject=subject, recipients=[user_email], body=body)
+    mail.send(msg)
+
+    return f"Confirmation email sent to {user_email}!"
 
 
 if __name__ == "__main__":
