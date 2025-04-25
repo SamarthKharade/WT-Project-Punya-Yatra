@@ -57,3 +57,7 @@ insert into travel(SourcePlace,DestinationPlace,TravelType,Travel_name,Travel_Ti
 ('Pune','Pandharpur','Bus','Neeta Travels','5:00 PM - 9:00 PM','850'),
 ('Pune','Tuljapur','Bus','KPN Travels','7:00 AM - 11:00 AM','750');
 select * from travel;
+
+create table darshanpassinfo(Temple_Name varchar(40),Person_name varchar(30),Email varchar(40),People int,Amount int,PassDate date);
+
+select * from darshanpassinfo;
