@@ -82,6 +82,20 @@
     .pay-button:hover {
       background-color: #6e3c22;
     }
+    .loadingOverlay{
+      display: none; 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      width: 100%;
+      height: 100%; 
+      background-color: rgba(0,0,0,0.6); 
+      align-items: center; 
+      justify-content: center; 
+      z-index: 9999; 
+      color: white; 
+      font-size: 24px;
+    }
   </style>
 </head>
 <body>
@@ -92,7 +106,6 @@
     <div class="summary">
       <p><strong>Booking Type:</strong> {{ service }}</p>
       <p><strong>Amount:</strong> ₹{{ amount }}</p>
-      <!-- Optional: you can fetch this dynamically later -->
     </div>
 
     <!-- Payment Options -->
@@ -118,12 +131,12 @@
       <input type="text" placeholder="Card Number" maxlength="16" required>
       <input type="text" placeholder="Expiry (MM/YY)" required>
       <input type="text" placeholder="CVV" maxlength="3" required>
-      <button class="pay-button">Pay ₹{{amount}}</button>
+      <button class="pay-button">Pay ₹{{ amount }}</button>
     </div>
 
     <div class="pay-form" id="upiForm">
       <input type="text" placeholder="Enter UPI ID (e.g. user@upi)" required>
-      <button class="pay-button">Pay ₹{{amount}}</button>
+      <button class="pay-button">Pay ₹{{ amount }}</button>
     </div>
 
     <div class="pay-form" id="netForm">
@@ -134,8 +147,18 @@
         <option>ICICI</option>
         <option>PNB</option>
       </select>
-      <button class="pay-button">Pay ₹{{amount}}</button>
+      <button class="pay-button">Pay ₹{{ amount }}</button>
     </div>
+  </div>
+
+  <form id="postForm" action="{{ url_for('payment') }}" method="POST">
+    <input type="hidden" name="service" value="{{ service }}">
+    <input type="hidden" name="amount" value="{{ amount }}">
+    <input type="hidden" name="booking_data" id="bookingData">
+  </form>
+  
+  <div id="loadingOverlay" class="loadingOverlay">
+    Processing Payment...
   </div>
 
   <script>
@@ -143,6 +166,16 @@
     const cardForm = document.getElementById('cardForm');
     const upiForm = document.getElementById('upiForm');
     const netForm = document.getElementById('netForm');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    const postForm = document.getElementById('postForm');
+
+    // Simulating booking data being stored (replace with actual data from session or backend)
+    const bookingData = localStorage.getItem('bookingData'); // Assuming booking data is stored in localStorage
+
+    // Pre-fill hidden field with booking data
+    if (bookingData) {
+      document.getElementById('bookingData').value = bookingData;
+    }
 
     options.forEach(option => {
       option.addEventListener('click', () => {
@@ -158,6 +191,19 @@
         if (option.id === 'cardOption') cardForm.style.display = 'block';
         if (option.id === 'upiOption') upiForm.style.display = 'block';
         if (option.id === 'netOption') netForm.style.display = 'block';
+      });
+    });
+
+    const payButtons = document.querySelectorAll('.pay-button');
+    payButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        loadingOverlay.style.display = 'flex';
+        
+        setTimeout(() => {
+          postForm.submit();
+        }, 3000);
+        localStorage.clear();
       });
     });
   </script>

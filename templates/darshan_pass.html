@@ -99,7 +99,7 @@
   <main>
     <div class="form-container">
       <h2>Darshan Pass Form</h2>
-      <form id="darshanForm" action="{{ url_for('darshanbooking') }}" method="post">
+      <form id="darshanForm" action="{{ url_for('darshanbooking') }}" method="POST">
         <label for="temple">Select Temple</label>
         <select id="temple" name="temple" required>
           <option value="">--Choose Temple--</option>
@@ -126,8 +126,10 @@
 
         <label for="date">Select Darshan Date</label>
         <input type="date" id="date" name="date" required>
-
-        <button type="submit">Get Darshan Pass</button>
+        <div id="dateError" style="color: red; font-size: 0.9em; margin-top: 5px;"></div>
+        <input type="hidden" name="service" value="Pass Booking">
+      <input type="hidden" name="totalPrice" id="hiddenTotal" value="0">
+        <button type="submit" id='submit'>Get Darshan Pass</button>
       </form>
     </div>
   </main>
@@ -141,7 +143,7 @@
     const peopleInput = document.getElementById('people');
     const priceInput = document.getElementById('price');
     const totalFareInput = document.getElementById('totalFare');
-
+    
     const templePrices = {
   "Swami Samarth Temple, Akkalkot": 200,
   "Sai Baba Temple, Shirdi": 500,
@@ -166,10 +168,52 @@
     templeSelect.addEventListener('change', updateFare);
     peopleInput.addEventListener('input', updateFare);
 
+    document.getElementById('date').addEventListener('input',()=>{
+      const dateError = document.getElementById('dateError');
+      const submitBtn = document.getElementById('submit');
+      const passDate = document.getElementById('date').value;
+      today = new Date();
+      today.setHours(0,0,0,0);
+      if(today > new Date(passDate)){
+        dateError.textContent = `Enter valid Date`;
+        submitBtn.disabled = true;
+        dateError.style.display = "block";
+      }
+      else{
+        dateError.textContent = '';
+        submitBtn.disabled = false;
+        dateError.style.display = "none"
+      }
+
+    })
+
     document.getElementById('darshanForm').addEventListener('submit', function (e) {
+      e.preventDefault(); // prevent default form submission
+      const form = this;
     
-      alert("Darshan Pass Submitted Successfully!");
+      const service = form.querySelector('input[name="service"]').value;
+      const amount = form.querySelector('input[name="totalFare"]').value;
+      const temple = document.getElementById('temple').value;
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const people = document.getElementById('people').value;
+      const total_Fare = document.getElementById('totalFare').value;
+      const date = document.getElementById('date').value;
+    
+      const bookingData = {
+        service:"pass",
+        temple: temple,
+        name: name,
+        email: email,
+        people: people,
+        total_Fare: total_Fare,
+        date: date
+      };
+    
+      localStorage.setItem('bookingData', JSON.stringify(bookingData));
+      window.location.href = `/payment?service=${encodeURIComponent(service)}&amount=${encodeURIComponent(amount)}`;
     });
+    
   </script>
 
 </body>

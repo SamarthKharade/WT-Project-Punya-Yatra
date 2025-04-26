@@ -12,6 +12,9 @@
             margin: auto;
             background-color: #f4f4f4;
         }
+        div{
+            padding:10px;
+        }
         .web-logo{
             height: 70px;
         }
@@ -31,14 +34,22 @@
         h1 {
             color: #333;
         }
+        .image{
+            margin:auto;
+            width:600px;
+            text_allign:center;
+        }
         .place-image {
-            width: 100%;
+            width: 600px;
             height: 400px;
             object-fit: cover;
+            margin:auto;
             border-radius: 8px;
         }
         .info {
             margin-top: 20px;
+            margin:auto;
+            width:1000px;
         }
         .location {
             font-style: italic;
@@ -68,7 +79,9 @@
         </div>
         <h1 style="width: 90vw;">{{ place.name }}</h1>
     </header>
-    <img src="{{ place.image_url }}" alt="{{ place.name }}" class="place-image">
+    <div class="image">
+        <img src="{{ place.image_url }}" alt="{{ place.name }}" class="place-image">
+    </div>
     <div class="info">
         <p class="location">{{ place.location }}</p>
         <p>{{ place.description }}</p>

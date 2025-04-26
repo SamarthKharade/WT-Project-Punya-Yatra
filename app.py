@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 from logging import exception
-from flask import Flask, redirect, render_template,request, session, url_for
+from flask import Flask, redirect, render_template,request, session, url_for,flash
 import mysql.connector # type: ignore
 import json
 import bcrypt
@@ -29,7 +29,7 @@ try:
     db = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="Samarth@2004",
+        password="root",
         database="punyayatra",
         auth_plugin='mysql_native_password',
         port=3306
@@ -143,8 +143,6 @@ Team Punya Yatra
     return render_template('signup.html')
 
     
-
-# Route to hotel
 @app.route('/hotel',methods=['GET', 'POST'])
 def hotel():
     if 'username' not in session:
@@ -165,7 +163,6 @@ def hotelinfo():
 
     return render_template('hotels.html')
 
-# Route to hotel booking
 
 @app.route('/userbookinghotel', methods=['GET', 'POST'])
 def userbookinghotel():
@@ -200,42 +197,31 @@ def userbookinghotel():
         return render_template('hotel.html')
 
 
-# Route to hotel booking
 @app.route('/hotelBooking',methods=['GET', 'POST'])
 def hotelBooking():
-     if 'username' not in session:
+    if 'username' not in session:
         return redirect(url_for('login'))
-     if request.method == 'POST':
+    
         # Get form data
-        name = request.form['customerName']
-        hname = request.form['hotelName']
-        location = request.form['location']
-        email= request.form['emailID']
-
-        room_type = request.form['roomType']
-        ac_type = request.form['acType']
-        total_people = request.form['numPeople']
-        total_room = request.form['numTables']
-        reporting_date = request.form['date']
-        reporting_time = request.form['bookingTime']
-        exit_date = request.form['exitdate']
-        exit_time = request.form['exittime']
-
-        try:
-            query = """INSERT INTO hotel_booking 
-                       (name,hotel_name,hotel_location,email,room_type, ac_type, total_people, total_room, 
-                        reporting_date, reporting_time, exit_date, exit_time)
-                       VALUES (%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s)"""
-            cursor.execute(query,(name,hname,location,email, room_type, ac_type, total_people, total_room,
-                                   reporting_date, reporting_time, exit_date, exit_time))
-            db.commit()
-
-            return redirect(url_for('hotelinfo'))  # Assuming you have a 'hotel' route
-        except mysql.connector.Error as err:
-            return f"Error: {err}"
-
-     else:
-        return render_template('hotelbooking.html, name=rname, location=location)')
+    if request.method == 'POST':
+        data = {
+            'service':'hotel',
+            'name' : request.form['customerName'],
+            'hname' : request.form['hotelName'],
+            'location' : request.form['location'],
+            'email': request.form['emailID'],
+            'room_type' : request.form['roomType'],
+            'ac_type' : request.form['acType'],
+            'total_people' : request.form['numPeople'],
+            'total_room' : request.form['numTables'],
+            'reporting_date' : request.form['date'],
+            'reporting_time' : request.form['bookingTime'],
+            'exit_date' : request.form['exitdate'],
+            'exit_time' : request.form['exittime'],
+            'amount': request.form['amount']
+        }
+        session["booking"] = data
+    return render_template('hotelbooking.html, name=rname, location=location)')
 
 
 @app.route('/restaurantinfo')
@@ -321,15 +307,13 @@ def restaurantBooking():
      else:
        return render_template('booking.html')
      
+
 # Route to transport
 @app.route('/transport')
 def transport():
     if 'username' not in session:
         return redirect(url_for('login'))
     return render_template('index.html')
-
-
-
 
 
 @app.route('/results')
@@ -342,6 +326,7 @@ def results():
     date = request.args.get('date')
 
     return render_template('results.html', transport_type=transport_type, from_location=from_location, to_location=to_location, date=date)
+
 
 @app.route('/logout')
 def logout():
@@ -366,15 +351,14 @@ def profile():
         return "User not found!"
 
 
-
 @app.route('/blog/<int:place_id>')
 def blog(place_id):
     try:
         file_path = os.path.join(app.root_path, 'static', 'json', 'temples.json')
-        with open(file_path, 'r') as f:
+        with open(file_path, 'r', encoding='utf-8') as f:  # <-- Fix here
             places = json.load(f)
             place = next((p for p in places if p['id'] == place_id), None)
-    except (FileNotFoundError, json.JSONDecodeError) as e:
+    except (FileNotFoundError, json.JSONDecodeError, UnicodeDecodeError) as e:
         return f"Error loading data: {e}", 500
 
     if not place:
@@ -383,13 +367,111 @@ def blog(place_id):
     return render_template('blogTemp.html', place=place)
 
 
-@app.route('/payment', methods=['GET'])
+@app.route('/payment', methods=['GET', 'POST'])
 def payment():
-    service = request.args.get('service')  # gets from ?service=...
-    amount = request.args.get('amount')    # gets from ?amount=...
+    if request.method == 'GET':
+        # Handle GET request: render the payment page
+        service = request.args.get('service', '')
+        amount = request.args.get('amount', '')
 
-    # Render the payment page with this info
-    return render_template('payment.html', service=service, amount=amount)
+        return render_template('payment.html', service=service, amount=amount)
+
+    elif request.method == 'POST':
+        # Handle POST request: process the payment and save the data
+        # Fetch the booking data from the form
+        booking_data_str = request.form.get('booking_data')
+        if not booking_data_str:
+            return "Error: booking data is missing.", 400  # You can customize the error message
+
+        try:
+            # Parse the booking data as JSON
+            booking_data = json.loads(booking_data_str)
+
+            # Fetch the 'service' from the booking data
+            service = booking_data.get('service')  # Fetching the service from the booking data JSON object
+            if not service:
+                return "Error: Service is missing in booking data.", 400  # Handle case where service is missing
+
+            # Check if the service is 'hotel'
+            if service == 'hotel':
+                # Extracting booking data from the JSON object
+                name = booking_data.get('name')
+                hname = booking_data.get('hname')
+                location = booking_data.get('location')
+                email = booking_data.get('email')
+                room_type = booking_data.get('room_type')
+                ac_type = booking_data.get('ac_type')
+                total_people = booking_data.get('total_people')
+                total_room = booking_data.get('total_room')
+                reporting_time = booking_data.get('reporting_time')
+                reporting_date = booking_data.get('reporting_date')
+                exit_date = booking_data.get('exit_date')
+                exit_time = booking_data.get('exit_time')
+
+                try:
+                    # Insert booking data into the database
+                    query = """INSERT INTO hotel_booking 
+                               (name, hotel_name, hotel_location, email, room_type, ac_type, total_people, total_room, 
+                                reporting_date, reporting_time, exit_date, exit_time)
+                               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+                    cursor.execute(query, (name, hname, location, email, room_type, ac_type, total_people, total_room,
+                                           reporting_date, reporting_time, exit_date, exit_time))
+                    db.commit()  # Commit the transaction
+
+                    # Redirect to a confirmation page after successful payment
+                    return redirect(url_for('hotelinfo'))  # Assuming you have a 'hotelinfo' route
+                except mysql.connector.Error as err:
+                    db.rollback()  # In case of error, rollback the transaction
+                    print(f"Error: {err}")
+                    return f"Error: {err}"
+            elif service == 'pass':
+                temple = booking_data.get('temple')
+                name = booking_data.get('name')
+                email = booking_data.get('email')
+                people = booking_data.get('people')
+                price = booking_data.get('total_Fare')
+                date = booking_data.get('date')
+
+                try:
+                    query= "INSERT INTO darshanpassinfo (Temple_Name,Person_name,Email,People,Amount,PassDate) VALUES (%s,%s,%s,%s,%s,%s)"
+                    cursor.execute(query,(temple,name,email,people,price,date))
+                    db.commit()
+
+                    user_email = email
+                    temple_name = temple 
+                    visit_date = date
+
+
+            # Email content
+                    subject = f"Darshan Pass Confirmation - {temple_name}"
+                    body = f"""Dear {name},
+
+                        Your Darshan Pass booking for {temple_name} on {visit_date} has been successfully confirmed...
+
+                        Date of Visit : {visit_date}
+                        Number of People : {people}
+                        Total Amount : {price} INR
+
+                        Please carry this email on the day of your visit...
+
+                        Thank you for using Punya Yatra !
+                        Wishing you a peaceful and blessed darshan...
+
+                        Regards,  
+                        Punya Yatra Team
+                        """
+
+            # Send email
+                    msg = Message(subject=subject, recipients=[user_email], body=body)
+                    mail.send(msg)
+                    return redirect(url_for('home'))
+                except mysql.connector.Error as err:
+                    return f"Error: {err}"
+            else:
+                return "Invalid service"
+
+        except json.JSONDecodeError:
+            return "Error: Failed to decode booking data as JSON", 400
 
 
 @app.route('/search_results', methods=['GET'])
@@ -419,65 +501,31 @@ def search_results():
 
     return render_template('results.html', results=results, source=source, destination=destination, transport_type=transport_type)
 
+
 @app.route('/darshan', methods=['GET'])
 def darshan():
     if 'username' not in session:
         return redirect(url_for('login'))
     return render_template('darshan_pass.html')
 
+
 @app.route('/darshanbooking', methods=['GET', 'POST'])
 def darshanbooking():
     if 'username' not in session:
         return redirect(url_for('login'))
+
     if request.method == 'POST':
-        temple = request.form['temple']
-        name= request.form['name']
-       
-        email= request.form['email']
-        people= request.form['people']
-        price= request.form['totalFare']
-        date= request.form['date']
-
-
-     
-
-        try:
-            query= "INSERT INTO darshanpassinfo (Temple_Name,Person_name,Email,People,Amount,PassDate) VALUES (%s,%s,%s,%s,%s,%s)"
-            cursor.execute(query,(temple,name,email,people,price,date))
-            db.commit()
-
-              # Simulate booking task
-            user_email = email
-            temple_name = temple 
-            visit_date = date
-            
-
-    # Email content
-            subject = f"Darshan Pass Confirmation - {temple_name}"
-            body = f"""Dear {name},
-
-Your Darshan Pass booking for {temple_name} on {visit_date} has been successfully confirmed...
-
-Date of Visit : {visit_date}
-Number of People : {people}
-Total Amount : {price} INR
-
-Please carry this email on the day of your visit...
-
-Thank you for using Punya Yatra !
-Wishing you a peaceful and blessed darshan...
-
-Regards,  
-Punya Yatra Team
-"""
-
-    # Send email
-            msg = Message(subject=subject, recipients=[user_email], body=body)
-            mail.send(msg)
-            return redirect(url_for('home'))
-        
-        except mysql.connector.Error as err:
-            return f"Error: {err}"
+        data = {
+            'temple' : request.form['temple'],
+            'name': request.form['name'],
+            'email': request.form['email'],
+            'people': request.form['people'],
+            'price': request.form['totalFare'],
+            'date': request.form['date']
+        }
+        session["booking"] = data
+        return render_template('darshan_pass.html')
+    return render_template('darshanbooking.html')
         
 
 @app.route('/send_email', methods=['POST'])
@@ -502,6 +550,16 @@ Swami Om !!!
     mail.send(msg)
 
     return f"Confirmation email sent to {user_email}!"
+
+
+@app.route('/forgot')
+def forgot():
+    return render_template('forgotPass.html')
+
+
+@app.route('/forgotUser')
+def forgotUser():
+    return render_template('forgotUser.html')
 
 
 if __name__ == "__main__":

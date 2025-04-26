@@ -2,28 +2,28 @@
     {
         "id": 1,
         "name": "Sai Baba Temple",
-        "description": "",
+        "description": "Sai Baba of Shirdi also known as Shirdi Sai Baba, was an Indian spiritual master considered to be a saint, and revered by both Hindu and Muslim devotees during and after his lifetime. \n According to accounts from his life, Sai Baba preached the importance of 'realisation of the self' and criticised 'love towards perishable things'. His teachings concentrated on a moral code of love, forgiveness, helping others, charity, contentment, inner peace, and devotion to God and Guru.\nSai Baba condemned discrimination based on religion or caste. He had both Hindu and Muslim followers, but when pressed on his own religious affiliations, he refused to identify himself with one to the exclusion of the other. His teachings combined elements of Hinduism and Islam: he gave the Hindu name Dwarakamayi to the mosque in which he lived, practised both Hindu and Muslim rituals, and taught using words and figures that drew from both traditions. According to the Shri Sai Satcharita, a hagiography written shortly after his death, his Hindu devotees believed him to be an incarnation of the Hindu deity Dattatreya.",
         "location": "shirdi, Maharashtra",
         "image_url": "../static/images/sai-baba-temple.png"
     },
     {
         "id": 2,
         "name": "Swami Samarth Temple",
-        "description": "",
+        "description": "Shri Swami Samarth Maharaj also known as Swami of Akkalkot was an Indian Hindu spiritual master of the Dattatreya Tradition. He lived during the nineteenth century from 1858 to 1878[citation needed] and is a known spiritual figure in various Indian states including Karnataka and Maharashtra. Swami Samarth traveled all across the Indian subcontinent and eventually set his abode at Akkalkot, a village in present-day Maharashtra. He is thought to have arrived at Akkalkot on a Wednesday, during either September or October in 1856. He resided at Akkalkot for close to 22 years.\nSwami Samartha took a samadhi in 1878. His teachings continue to be followed by millions of people in Maharashtra, and his ashram in Akkalkot remains a popular place of pilgrimage.",
         "location": "Akkalkot, Maharashtra",
         "image_url": "../static/images/swami-samarth-temple.jpg"
     },
     {
         "id": 3,
         "name": "Vittal Rakumai Temple",
-        "description": "",
+        "description": "The Vithoba Temple, officially known as Shri Vitthal-Rukmini Mandir , is a Hindu temple in Pandharpur, in the Indian state of Maharashtra.[2] It is the main centre of worship for Vithoba, a form of the god Vishnu or Krishna, and his consort Rakhumai. It is one of the 108 Abhimana Kshethram of Vaishnavate tradition.[citation needed] The temple was built by King Vishnuvardhana of Hoysala Empire between 1108 and 1152 CE upon being convinced by the historical figure Pundalik. Also, there is an inscription in the temple, of a Hoysala King Vira Someshwara dating back to 1237 CE, which grants the temple a village for its upkeep.[3] It is the most visited temple in Maharashtra. The Warkaris start marching from their homes to the temple of Pandharpur in groups called Dindi (procession) to reach on Aashadhi Ekadashi and Kartiki Ekadashi. A dip in the holy river Chandrabhaga, on whose banks Pandharpur resides, is believed to have power to wash all sins. All the devotees are allowed to touch the feet of the idol of Vithoba. In May 2014, the temple became the first in India to invite women and people from backward classes as priests.\nAlthough parts of the temple date to the 12th or 13th century, the existing structure mainly dates to the 17th century or later, and reflects the later Deccan style, with dome motifs and lobed arches.[9] Attempts were made to destroy the temple by Afzal Khan, however the original central figure of the shrine was protected by the Brahmin priests Badve while Afzalkhan destroyed a similar idol.",
         "location": "Pandharpur, Maharashtra",
         "image_url": "../static/images/pandharpur-temple.jpg"
     },
     {
         "id": 4,
         "name": "Tulja Bhavani Temple",
-        "description": "",
+        "description": "Shree Tulaja Bhavani Temple is a Hindu temple dedicated to goddess Bhavani. It is located in Tuljapur in Dharashiv district of Maharashtra, India, and is considered as one of the 51 Shakti Pithas. It is situated 45 km from Solapur. The temple was built in 12th century CE by Maratha Mahamandaleshwara Māradadeva of the Kadamb dynasty.",
         "location": "Tuljapur, Maharashtra",
         "image_url": "../static/images/tuljapur-temple.jpg"
     }

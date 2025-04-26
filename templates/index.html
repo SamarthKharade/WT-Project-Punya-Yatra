@@ -14,42 +14,65 @@
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
-    body { font-family:'Poppins',sans-serif;
-           background:linear-gradient(135deg,#f5f7fa 0%,#c3cfe2 100%); }
-    .navbar { background:rgba(255,0,0,0.9); }
-    .navbar-brand { font-size:1.8rem;font-weight:bold; }
-    .nav-link { color:white!important;margin-right:15px;
-                font-size:1.1rem;transition:.3s; }
-    .nav-link:hover { color:#ffd700!important; }
-    .hero { height:70vh;
-            background:url('{{ url_for("static",filename="images/hero.jpg") }}')
-                     no-repeat center/cover;
-            display:flex;align-items:center;justify-content:center;
-            text-align:center;color:white;padding:40px;  }
-    .search-box { background:white;padding:20px;
-                  border-radius:12px;
-                  box-shadow:0 4px 12px rgba(0,0,0,0.2);
-                  margin-top:-30px;}
-                  .transport-icons img {
-    width: 130px; height: 120px;
-    
-    object-fit: contain;    /* keeps the aspect ratio, with letterboxing if needed */
-    margin: 10px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-    .transport-icons img:hover { transform:scale(1.1); }
-    .selected { border:3px solid #ff5733;border-radius:12px; }
+    body{
+       font-family:'Poppins',sans-serif;
+      background:linear-gradient(135deg,#f5f7fa 0%,#c3cfe2 100%);
+    }
+    .logo{
+      height: 70px;
+    }
+    .navbar{
+      background:rgba(150, 25, 25, 0.9);
+    }
+    .navbar-brand { 
+      font-size:1.8rem;font-weight:bold; 
+    }
+    .nav-link {
+      margin-right:15px;
+      font-size:1.1rem;transition:.3s; 
+    }
+    .nav-link:hover {
+      color:black; 
+    }
+    .hero { 
+      height:70vh;
+      background:url('{{ url_for("static",filename="images/hero.jpg") }}')no-repeat center/cover;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:40px;  
+    }
+    .search-box { 
+      background:white;
+      padding:20px;
+      border-radius:12px;
+      box-shadow:0 4px 12px rgba(0,0,0,0.2);
+      margin-top:-30px;
+    }
+    .transport-icons img {
+      width: 130px; 
+      height: 120px;
+      object-fit: contain;    /* keeps the aspect ratio, with letterboxing if needed */
+      margin: 10px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .transport-icons img:hover { 
+      transform:scale(1.1); 
+    }
+    .selected { 
+      border:3px solid #ff5733;
+      border-radius:12px; 
+    }
   </style>
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
-      <img src="{{ url_for('static',filename='images/logo.png') }}"
-           alt="Logo" width="50" height="50"
-           class="me-2"
-           style="border-radius:50%;justify-content:left;"
-           onclick="location.href='{{ url_for('home') }}'">
+      <img src="{{ url_for('static',filename='images/logo2.png') }}"
+        alt="Logo" class="logo"
+        onclick="location.href='{{ url_for('home') }}'">
       <a class="navbar-brand" href="{{ url_for('home') }}">
         Punya Yatra : Your Complete Pilgrimage Planner
       </a>
