@@ -29,7 +29,7 @@ try:
     db = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="root",
+        password="Samarth@2004",
         database="punyayatra",
         auth_plugin='mysql_native_password',
         port=3306
@@ -98,12 +98,8 @@ def signup():
    
         cursor.execute(query,(name,gender,age,countrycode,mobile,email,address,username,hashed_password))
         db.commit()
-        user_email = email
-        
-     
-            
 
-    # Email content
+        user_email=email
         subject = f"Welcome to Punya Yatra!"
         body = f"""Dear {name},
 
@@ -418,6 +414,32 @@ def payment():
                                            reporting_date, reporting_time, exit_date, exit_time))
                     db.commit()  # Commit the transaction
 
+                    
+
+                    subject = "Punya Yatra - Hotel Booking Confirmation"
+                    body = f"""
+    Dear {name},
+
+    Thank you for booking with Punya Yatra!
+
+    Your hotel booking has been successfully confirmed. Here are the details:
+
+    Hotel Name   : {hname}
+    Location     : {location}
+    Room type    : {room_type}, {ac_type}
+    Total People : {total_people} 
+    Total Room   : {total_room}
+    Check-In     : {reporting_date}
+    Check-Out    : {exit_date}
+
+    We hope you have a pleasant and spiritual journey. For any assistance, feel free to contact us.
+
+    Regards,  
+    Team Punya Yatra"""
+                    
+                    msg = Message(subject=subject, recipients=[email], body=body)
+                    mail.send(msg)
+
                     # Redirect to a confirmation page after successful payment
                     return redirect(url_for('hotelinfo'))  # Assuming you have a 'hotelinfo' route
                 except mysql.connector.Error as err:
@@ -427,44 +449,46 @@ def payment():
             elif service == 'pass':
                 temple = booking_data.get('temple')
                 name = booking_data.get('name')
-                email = booking_data.get('email')
+                email2 = booking_data.get('email')
                 people = booking_data.get('people')
                 price = booking_data.get('total_Fare')
                 date = booking_data.get('date')
 
                 try:
                     query= "INSERT INTO darshanpassinfo (Temple_Name,Person_name,Email,People,Amount,PassDate) VALUES (%s,%s,%s,%s,%s,%s)"
-                    cursor.execute(query,(temple,name,email,people,price,date))
+                    cursor.execute(query,(temple,name,email2,people,price,date))
                     db.commit()
 
-                    user_email = email
+                    #user_email = email2
                     temple_name = temple 
                     visit_date = date
+            
 
-
-            # Email content
+    # Email content
                     subject = f"Darshan Pass Confirmation - {temple_name}"
                     body = f"""Dear {name},
 
-                        Your Darshan Pass booking for {temple_name} on {visit_date} has been successfully confirmed...
+Your Darshan Pass booking for {temple_name} on {visit_date} has been successfully confirmed...
 
-                        Date of Visit : {visit_date}
-                        Number of People : {people}
-                        Total Amount : {price} INR
+Date of Visit : {visit_date}
+Number of People : {people}
+Total Amount : {price} INR
 
-                        Please carry this email on the day of your visit...
+Please carry this email on the day of your visit...
 
-                        Thank you for using Punya Yatra !
-                        Wishing you a peaceful and blessed darshan...
+Thank you for using Punya Yatra !
+Wishing you a peaceful and blessed darshan...
 
-                        Regards,  
-                        Punya Yatra Team
-                        """
+Regards,  
+Punya Yatra Team
+"""
 
-            # Send email
-                    msg = Message(subject=subject, recipients=[user_email], body=body)
+    # Send email
+                    msg = Message(subject=subject, recipients=[email2], body=body)
                     mail.send(msg)
                     return redirect(url_for('home'))
+
+                
                 except mysql.connector.Error as err:
                     return f"Error: {err}"
             else:
